@@ -123,6 +123,11 @@ def iter_examples(ds, splits: List[str], max_samples: int, shuffle: bool = False
         if seed is not None:
             random.seed(seed)
             np.random.seed(seed)
+        else:
+            # Use current time as seed to ensure different order each run
+            import time
+            random.seed(int(time.time() * 1000000) % (2**32))
+            np.random.seed(int(time.time() * 1000000) % (2**32))
         random.shuffle(examples)
 
     # Yield examples (with limit)
@@ -354,9 +359,14 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=None, help="Random seed for shuffling (for reproducibility)")
     args = ap.parse_args()
 
+    # Always add timestamp to avoid overwriting previous results
     if args.out_dir is None:
         safe_model = args.model_name.replace("/", "_")
         args.out_dir = f"runs/{safe_model}_{_now_id()}"
+    else:
+        # Add timestamp to user-provided directory name
+        base_dir = args.out_dir.rstrip("/")
+        args.out_dir = f"{base_dir}_{_now_id()}"
 
     out_dir = Path(args.out_dir)
     _ensure_dir(out_dir)
