@@ -129,13 +129,34 @@ def iter_examples(
 
 
 def compute_metrics(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    # Compter seulement les exemples avec une vraie réponse (pas les erreurs)
+    valid_rows = [r for r in rows if r.get("pred") is not None]  # Seulement ceux avec une prédiction valide
+    error_count = len(rows) - len(valid_rows)
+    
     by_split: Dict[str, List[bool]] = {}
+    by_split_errors: Dict[str, int] = {}
     for r in rows:
-        by_split.setdefault(r["split"], []).append(bool(r["correct"]))
+        split = r["split"]
+        if r.get("pred") is not None:
+            # Seulement compter les réponses valides
+            by_split.setdefault(split, []).append(bool(r["correct"]))
+        else:
+            # Compter les erreurs séparément
+            by_split_errors[split] = by_split_errors.get(split, 0) + 1
+    
     return {
         "n": len(rows),
-        "accuracy": float(np.mean([r["correct"] for r in rows])) if rows else 0.0,
-        "by_split": {sp: {"n": len(v), "accuracy": float(np.mean(v)) if v else 0.0} for sp, v in by_split.items()},
+        "n_valid": len(valid_rows),  # Nombre de réponses valides
+        "n_errors": error_count,  # Nombre d'erreurs (MAX_TOKENS, etc.)
+        "accuracy": float(np.mean([r["correct"] for r in valid_rows])) if valid_rows else 0.0,  # Accuracy seulement sur les réponses valides
+        "by_split": {
+            sp: {
+                "n": len(v),
+                "n_errors": by_split_errors.get(sp, 0),
+                "accuracy": float(np.mean(v)) if v else 0.0
+            }
+            for sp, v in by_split.items()
+        },
     }
 
 
@@ -183,11 +204,12 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             genai_old.configure(api_key=_clean(api_key))
             model = genai_old.GenerativeModel(model_name.replace("models/", ""))
             
-            # Utiliser generation_config avec stop_sequences
+            # Utiliser generation_config - stop_sequences limité à 5 max
+            # Simplifier : juste arrêter après saut de ligne ou point
             generation_config = {
                 "max_output_tokens": max_output_tokens,
                 "temperature": 0.0,
-                "stop_sequences": ["\n", ".", "A\n", "B\n", "C\n", "D\n"],
+                "stop_sequences": ["\n", "."],  # Maximum 5, on en met 2 seulement
             }
             
             if debug_response:
@@ -241,18 +263,18 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                     # Ajouter stop_sequences pour forcer l'arrêt après A/B/C
                     try:
                         from google.genai import types
-                        # stop_sequences: arrêter après A, B, ou C (avec espace après pour éviter d'arrêter au milieu d'un mot)
+                        # stop_sequences limité à 5 max - simplifier
                         config = types.GenerateContentConfig(
                             max_output_tokens=max_output_tokens,
                             temperature=0.0,
-                            stop_sequences=["\n", ".", "A\n", "B\n", "C\n", "D\n"],  # Arrêter après la lettre
+                            stop_sequences=["\n", "."],  # Maximum 5, on en met 2 seulement
                         )
                     except ImportError:
                         # Fallback vers dict si types n'est pas disponible
                         config = {
                             "max_output_tokens": max_output_tokens,
                             "temperature": 0.0,
-                            "stop_sequences": ["\n", ".", "A\n", "B\n", "C\n", "D\n"],
+                            "stop_sequences": ["\n", "."],
                         }
                     
                     # Log pour vérifier que max_output_tokens est bien passé
@@ -477,7 +499,7 @@ def main() -> None:
     ap.add_argument("--max_samples", type=int, default=-1)
     ap.add_argument("--shuffle", action="store_true")
     ap.add_argument("--seed", type=int, default=None)
-    ap.add_argument("--max_output_tokens", type=int, default=64, help="Tokens max pour la réponse. Par défaut: 64. Avec stop_sequences, cela devrait être suffisant. Si MAX_TOKENS persiste, augmenter à 128-256.")
+    ap.add_argument("--max_output_tokens", type=int, default=128, help="Tokens max pour la réponse. Par défaut: 128. Augmenter si MAX_TOKENS persiste.")
     ap.add_argument("--out_dir", default=None)
     ap.add_argument("--debug", action="store_true", help="Afficher les 5 premières réponses brutes pour debug")
     ap.add_argument("--debug_response", action="store_true", help="Afficher la structure complète de la réponse Gemini (très verbeux)")
