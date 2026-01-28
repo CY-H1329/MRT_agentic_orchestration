@@ -245,8 +245,36 @@ def predict_one(
     """
     prompt = _build_prompt(question)
 
-    # Many Qwen-VL processors accept (text, images) and return input tensors.
-    inputs = processor(text=prompt, images=image, return_tensors="pt")
+    # Qwen2.5-VL requires image placeholder tokens injected by the chat template.
+    # Otherwise you get: "Image features and image tokens do not match".
+    if hasattr(processor, "apply_chat_template"):
+        try:
+            from qwen_vl_utils import process_vision_info  # type: ignore
+
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "image", "image": image},
+                        {"type": "text", "text": prompt},
+                    ],
+                }
+            ]
+            text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+            image_inputs, video_inputs = process_vision_info(messages)
+            inputs = processor(
+                text=[text],
+                images=image_inputs,
+                videos=video_inputs,
+                padding=True,
+                return_tensors="pt",
+            )
+        except Exception:
+            # Fall back to a simpler call (may fail on some versions)
+            inputs = processor(text=prompt, images=image, return_tensors="pt")
+    else:
+        # Many VLM processors accept (text, images) and return input tensors.
+        inputs = processor(text=prompt, images=image, return_tensors="pt")
 
     # Move tensors to model device
     model_device = next(model.parameters()).device
