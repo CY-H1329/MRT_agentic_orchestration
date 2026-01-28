@@ -115,7 +115,7 @@ def compute_metrics(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
     }
 
 
-def call_gemini(image: Image.Image, question: str, model_name: str, max_output_tokens: int) -> str:
+def call_gemini(image: Image.Image, question: str, model_name: str, max_output_tokens: int, debug_response: bool = False) -> str:
     # Utiliser la nouvelle API google.genai (l'ancienne google.generativeai ne fonctionne plus)
     try:
         import google.genai as genai
@@ -176,16 +176,52 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                 config={"max_output_tokens": max_output_tokens, "temperature": 0.0},
             )
             
+            # Debug: afficher la structure complète si demandé
+            if debug_response:
+                import json
+                try:
+                    debug_info = {
+                        "type": str(type(response)),
+                        "has_text": hasattr(response, "text"),
+                        "text_value": getattr(response, "text", None),
+                        "has_candidates": hasattr(response, "candidates"),
+                        "candidates_value": getattr(response, "candidates", None),
+                        "dir": [x for x in dir(response) if not x.startswith("_")],
+                    }
+                    print(f"[DEBUG RESPONSE] {json.dumps(debug_info, indent=2, default=str)}")
+                except Exception as e:
+                    print(f"[DEBUG RESPONSE] Error inspecting: {e}")
+            
             # Extraire le texte de la réponse
-            if hasattr(response, "text") and response.text:
-                return response.text.strip()
-            elif hasattr(response, "candidates") and response.candidates:
-                for candidate in response.candidates:
-                    if hasattr(candidate, "content") and hasattr(candidate.content, "parts"):
-                        for part in candidate.content.parts:
-                            if hasattr(part, "text") and part.text:
-                                return part.text.strip()
-            return "ERROR: Empty response from new API"
+            if response is None:
+                return "ERROR: Response is None"
+            
+            # La nouvelle API google.genai retourne directement le texte dans response.text
+            if hasattr(response, "text"):
+                text = response.text
+                if text:
+                    return str(text).strip()
+            
+            # Fallback: chercher dans candidates si présent
+            if hasattr(response, "candidates"):
+                candidates = response.candidates
+                if candidates is not None:
+                    try:
+                        for candidate in candidates:
+                            if hasattr(candidate, "content"):
+                                content = candidate.content
+                                if content and hasattr(content, "parts"):
+                                    parts = content.parts
+                                    if parts is not None:
+                                        for part in parts:
+                                            if hasattr(part, "text") and part.text:
+                                                return str(part.text).strip()
+                    except (TypeError, AttributeError) as e:
+                        if debug_response:
+                            return f"ERROR iterating candidates: {e}"
+            
+            # Si on arrive ici, la réponse n'a pas de texte lisible
+            return f"ERROR: No text found. Response type: {type(response)}, has_text: {hasattr(response, 'text')}, text={getattr(response, 'text', None)}"
         else:
             # Ancienne API (fallback, probablement ne fonctionnera pas)
             genai.configure(api_key=_clean(api_key))
@@ -211,6 +247,7 @@ def main() -> None:
     ap.add_argument("--max_output_tokens", type=int, default=16)
     ap.add_argument("--out_dir", default=None)
     ap.add_argument("--debug", action="store_true", help="Afficher les 5 premières réponses brutes pour debug")
+    ap.add_argument("--debug_response", action="store_true", help="Afficher la structure complète de la réponse Gemini (très verbeux)")
     args = ap.parse_args()
 
     if args.out_dir is None:
@@ -230,7 +267,7 @@ def main() -> None:
 
     with (out_dir / "predictions.jsonl").open("w", encoding="utf-8") as f:
         for ex in tqdm(iter_examples(ds, args.splits, args.max_samples, args.shuffle, args.seed), desc="Evaluating"):
-            raw = call_gemini(ex.image, ex.question, args.model_name, args.max_output_tokens)
+            raw = call_gemini(ex.image, ex.question, args.model_name, args.max_output_tokens, debug_response=args.debug_response)
             
             # Debug: afficher les premières réponses
             if args.debug and debug_count < 5:
