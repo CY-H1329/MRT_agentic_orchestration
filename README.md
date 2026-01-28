@@ -145,6 +145,40 @@ python -m srbench_qwen_mrt_openai.eval_gpt4o_mrt \
   --out_dir runs/gpt4o_mrt
 ```
 
+## Baseline API: Gemini (Google)
+
+Pré-requis sur le serveur:
+
+```bash
+export GOOGLE_API_KEY="..."  # ou GEMINI_API_KEY
+pip install -U -r requirements.txt
+```
+
+Smoke test (Gemini Flash):
+
+```bash
+python -m srbench_qwen_mrt_gemini.eval_gemini_mrt \
+  --model_name gemini-1.5-flash \
+  --splits mrt_easy mrt_hard \
+  --max_samples 20 \
+  --out_dir runs/gemini_flash_mrt
+```
+
+Modèles disponibles:
+- `gemini-1.5-flash` (rapide, gratuit)
+- `gemini-1.5-pro` (plus performant)
+- `gemini-2.0-flash-exp` (expérimental, si disponible)
+
+Run complet (sans shuffle pour garder easy/hard séparés):
+
+```bash
+python -m srbench_qwen_mrt_gemini.eval_gemini_mrt \
+  --model_name gemini-1.5-flash \
+  --splits mrt_easy mrt_hard \
+  --max_samples -1 \
+  --out_dir runs/gemini_flash_full
+```
+
 ## Exécution via GitHub Actions sur H100 (runner self-hosted)
 
 Ce repo inclut un workflow `.github/workflows/run_mrt.yml` conçu pour tourner sur un runner **self-hosted** (ex: machine H100).

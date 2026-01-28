@@ -15,6 +15,9 @@ qwen-vl-utils>=0.0.8
 # GPT-4o eval via OpenAI API
 openai>=1.0.0
 
+# Gemini eval via Google Generative AI API
+google-generativeai>=0.3.0
+
 # Laissez torch/torchvision être géré côté serveur CUDA si besoin (pip/conda).
 # Si vous voulez pip ici, décommentez les lignes ci-dessous avec la wheel CUDA appropriée.
 # torch
