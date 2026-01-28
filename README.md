@@ -151,12 +151,28 @@ python -m srbench_qwen_mrt_openai.eval_gpt4o_mrt \
 - Attendre le reset quotidien du quota
 - Upgrader vers un plan payant
 
+### Installation et vérification
+
 Pré-requis sur le serveur:
 
 ```bash
 export GOOGLE_API_KEY="..."  # ou GEMINI_API_KEY
 pip install -U -r requirements.txt
 ```
+
+**IMPORTANT**: Avant de lancer l'évaluation complète, vérifie que Gemini fonctionne:
+
+```bash
+python -m srbench_qwen_mrt_gemini.check_gemini
+```
+
+Ce script teste:
+- ✅ Installation de `google-genai`
+- ✅ Configuration de l'API key
+- ✅ Génération avec une image factice
+- ✅ Extraction correcte du texte de la réponse
+
+Si le check passe, tu peux lancer l'évaluation. Sinon, corrige les problèmes d'abord.
 
 Smoke test (Gemini Flash):
 

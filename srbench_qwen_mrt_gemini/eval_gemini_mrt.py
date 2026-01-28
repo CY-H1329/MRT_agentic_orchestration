@@ -211,52 +211,47 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                 except Exception as e:
                     print(f"[DEBUG RESPONSE] Error inspecting: {e}")
             
-            # Extraire le texte de la réponse
+            # Extraire le texte de la réponse (même méthode que check_gemini.py)
             if response is None:
                 return "ERROR: Response is None"
             
-            # D'après les tests: response.parts[0].text contient le texte
-            # response.text peut être None même si has_text=True
+            text = None
             
-            # 1. Essayer response.parts directement (le plus fiable d'après les tests)
+            # Méthode 1: response.parts[0].text (le plus fiable d'après les tests)
             try:
-                if hasattr(response, "parts") and response.parts:
-                    if len(response.parts) > 0:
-                        part = response.parts[0]
-                        if hasattr(part, "text") and part.text:
-                            return str(part.text).strip()
-            except (TypeError, AttributeError, IndexError) as e:
-                if debug_response:
-                    print(f"[DEBUG] Error accessing response.parts: {e}")
-            
-            # 2. Essayer response.text (propriété calculée, peut être None)
-            try:
-                text = response.text
-                if text:
-                    return str(text).strip()
-            except (AttributeError, TypeError):
+                if hasattr(response, "parts") and response.parts and len(response.parts) > 0:
+                    part = response.parts[0]
+                    if hasattr(part, "text") and part.text:
+                        text = str(part.text).strip()
+            except (TypeError, AttributeError, IndexError):
                 pass
             
-            # 3. Fallback: chercher dans candidates[0].content.parts[0].text
-            try:
-                if hasattr(response, "candidates") and response.candidates:
-                    candidates = response.candidates
-                    if candidates and len(candidates) > 0:
-                        candidate = candidates[0]
+            # Méthode 2: response.text (propriété calculée)
+            if not text:
+                try:
+                    if hasattr(response, "text") and response.text:
+                        text = str(response.text).strip()
+                except (AttributeError, TypeError):
+                    pass
+            
+            # Méthode 3: candidates[0].content.parts[0].text (fallback)
+            if not text:
+                try:
+                    if hasattr(response, "candidates") and response.candidates and len(response.candidates) > 0:
+                        candidate = response.candidates[0]
                         if hasattr(candidate, "content") and candidate.content:
                             content = candidate.content
-                            if hasattr(content, "parts") and content.parts:
-                                parts = content.parts
-                                if parts and len(parts) > 0:
-                                    part = parts[0]
-                                    if hasattr(part, "text") and part.text:
-                                        return str(part.text).strip()
-            except (TypeError, AttributeError, IndexError) as e:
-                if debug_response:
-                    print(f"[DEBUG] Error accessing candidates: {e}")
+                            if hasattr(content, "parts") and content.parts and len(content.parts) > 0:
+                                part = content.parts[0]
+                                if hasattr(part, "text") and part.text:
+                                    text = str(part.text).strip()
+                except (TypeError, AttributeError, IndexError):
+                    pass
             
-            # Si on arrive ici, la réponse n'a pas de texte lisible
-            return f"ERROR: No text found. Response type: {type(response)}"
+            if text:
+                return text
+            else:
+                return "ERROR: No text found in response"
         else:
             # Ancienne API (fallback, probablement ne fonctionnera pas)
             genai.configure(api_key=_clean(api_key))
