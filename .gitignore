@@ -8,3 +8,9 @@ wandb/
 # Cache HF / torch (optional)
 .cache/
 
+# Polycube MRT composites
+polycube_mrt_out/
+polycube_mrt/**/*.png
+# Images générées par Blender
+blender_polycube_generator/output/
+
