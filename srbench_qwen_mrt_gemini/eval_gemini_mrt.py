@@ -196,29 +196,38 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             if response is None:
                 return "ERROR: Response is None"
             
-            # La nouvelle API google.genai retourne directement le texte dans response.text
-            if hasattr(response, "text"):
-                text = response.text
-                if text:
-                    return str(text).strip()
+            # La nouvelle API google.genai: le texte peut être dans response.text OU dans response.parts
+            # OU dans response.candidates[0].content.parts[0].text
             
-            # Fallback: chercher dans candidates si présent
-            if hasattr(response, "candidates"):
-                candidates = response.candidates
-                if candidates is not None:
-                    try:
-                        for candidate in candidates:
-                            if hasattr(candidate, "content"):
-                                content = candidate.content
-                                if content and hasattr(content, "parts"):
-                                    parts = content.parts
-                                    if parts is not None:
-                                        for part in parts:
-                                            if hasattr(part, "text") and part.text:
-                                                return str(part.text).strip()
-                    except (TypeError, AttributeError) as e:
-                        if debug_response:
-                            return f"ERROR iterating candidates: {e}"
+            # 1. Essayer response.text d'abord
+            if hasattr(response, "text") and response.text is not None:
+                return str(response.text).strip()
+            
+            # 2. Essayer response.parts directement
+            if hasattr(response, "parts") and response.parts:
+                for part in response.parts:
+                    if hasattr(part, "text") and part.text:
+                        return str(part.text).strip()
+            
+            # 3. Fallback: chercher dans candidates[0].content.parts[0].text
+            if hasattr(response, "candidates") and response.candidates:
+                try:
+                    # Accéder directement au premier candidate
+                    if len(response.candidates) > 0:
+                        candidate = response.candidates[0]
+                        # Ignorer si c'est une string (représentation)
+                        if isinstance(candidate, str):
+                            pass
+                        elif hasattr(candidate, "content") and candidate.content:
+                            content = candidate.content
+                            if hasattr(content, "parts") and content.parts:
+                                if len(content.parts) > 0:
+                                    part = content.parts[0]
+                                    if hasattr(part, "text") and part.text:
+                                        return str(part.text).strip()
+                except (TypeError, AttributeError, IndexError) as e:
+                    if debug_response:
+                        return f"ERROR accessing candidates[0]: {e}"
             
             # Si on arrive ici, la réponse n'a pas de texte lisible
             return f"ERROR: No text found. Response type: {type(response)}, has_text: {hasattr(response, 'text')}, text={getattr(response, 'text', None)}"
