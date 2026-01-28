@@ -79,10 +79,9 @@ def _parse_choice(text: str) -> Optional[str]:
 def _build_prompt(question: str) -> str:
     # Prompt ultra-strict pour forcer EXACTEMENT une seule lettre
     # Format minimal pour éviter MAX_TOKENS
-    # IMPORTANT: Ne pas mettre de point final ou saut de ligne - stop_sequences s'en chargera
     return (
         f"{question}\n\n"
-        "Answer with exactly ONE character: A, B, or C"
+        "Answer with exactly ONE character: A, B, or C. Do not add anything else."
     )
 
 
@@ -204,12 +203,10 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             genai_old.configure(api_key=_clean(api_key))
             model = genai_old.GenerativeModel(model_name.replace("models/", ""))
             
-            # Utiliser generation_config - stop_sequences limité à 5 max
-            # Simplifier : juste arrêter après saut de ligne ou point
+            # Utiliser generation_config - stop_sequences retiré pour éviter les erreurs
             generation_config = {
                 "max_output_tokens": max_output_tokens,
                 "temperature": 0.0,
-                "stop_sequences": ["\n", "."],  # Maximum 5, on en met 2 seulement
             }
             
             if debug_response:
@@ -260,21 +257,18 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                 try:
                     # Utiliser types.GenerateContentConfig() au lieu d'un dict simple
                     # C'est le format correct pour l'API google.genai
-                    # Ajouter stop_sequences pour forcer l'arrêt après A/B/C
+                    # stop_sequences retiré pour éviter les erreurs
                     try:
                         from google.genai import types
-                        # stop_sequences limité à 5 max - simplifier
                         config = types.GenerateContentConfig(
                             max_output_tokens=max_output_tokens,
                             temperature=0.0,
-                            stop_sequences=["\n", "."],  # Maximum 5, on en met 2 seulement
                         )
                     except ImportError:
                         # Fallback vers dict si types n'est pas disponible
                         config = {
                             "max_output_tokens": max_output_tokens,
                             "temperature": 0.0,
-                            "stop_sequences": ["\n", "."],
                         }
                     
                     # Log pour vérifier que max_output_tokens est bien passé
@@ -496,7 +490,8 @@ def main() -> None:
     ap.add_argument("--dataset_name", default="stogian/srbench")
     ap.add_argument("--dataset_split", default="test")
     ap.add_argument("--splits", nargs="+", default=["mrt_easy", "mrt_hard"])
-    ap.add_argument("--max_samples", type=int, default=-1)
+    ap.add_argument("--max_samples", type=int, default=-1, help="Nombre max d'exemples à traiter. -1 = tous. Ignoré si --target_valid_per_split est utilisé.")
+    ap.add_argument("--target_valid_per_split", type=int, default=None, help="Continuer jusqu'à avoir N réponses valides par split. Ex: 200 pour avoir 200 easy + 200 hard.")
     ap.add_argument("--shuffle", action="store_true")
     ap.add_argument("--seed", type=int, default=None)
     ap.add_argument("--max_output_tokens", type=int, default=128, help="Tokens max pour la réponse. Par défaut: 128. Augmenter si MAX_TOKENS persiste.")
@@ -520,6 +515,10 @@ def main() -> None:
     rows: List[Dict[str, Any]] = []
     detailed: List[Dict[str, Any]] = []
     example_count = 0
+    
+    # Compteur de réponses valides par split
+    valid_count_by_split: Dict[str, int] = {split: 0 for split in args.splits}
+    target_valid = args.target_valid_per_split
 
     with (out_dir / "predictions.jsonl").open("w", encoding="utf-8") as f:
         iterator = iter_examples(ds, args.splits, args.max_samples, args.shuffle, args.seed)
@@ -529,6 +528,13 @@ def main() -> None:
             iterator = tqdm(iterator, desc="Evaluating")
         
         for ex in iterator:
+            # Vérifier si on a atteint le nombre cible de réponses valides pour tous les splits
+            if target_valid is not None:
+                all_splits_done = all(valid_count_by_split.get(split, 0) >= target_valid for split in args.splits)
+                if all_splits_done:
+                    if not args.verbose:
+                        print(f"\n✅ Atteint {target_valid} réponses valides pour tous les splits. Arrêt.")
+                    break
             raw = call_gemini(ex.image, ex.question, args.model_name, args.max_output_tokens, debug_response=args.debug_response)
             
             pred = _parse_choice(raw)
@@ -562,6 +568,14 @@ def main() -> None:
             row = {"idx": ex.idx, "split": ex.split, "answer": ex.answer, "pred": pred, "correct": bool(correct), "raw": raw}
             rows.append(row)
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
+            
+            # Compter les réponses valides par split
+            if pred is not None:  # Réponse valide
+                valid_count_by_split[ex.split] = valid_count_by_split.get(ex.split, 0) + 1
+                if target_valid is not None and not args.verbose:
+                    # Afficher le progrès
+                    progress = {split: f"{valid_count_by_split.get(split, 0)}/{target_valid}" for split in args.splits}
+                    print(f"\r[Progrès] Valid responses: {progress}", end="", flush=True)
 
             detailed.append(
                 {
