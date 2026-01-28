@@ -145,11 +145,25 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             # Nouvelle API google.genai
             client = genai.Client(api_key=_clean(api_key))
             
-            # Normaliser le nom du modèle (enlever "models/" si présent)
-            clean_model = model_name.replace("models/", "").strip()
+            # Mapping vers les noms corrects de l'API
+            model_map = {
+                "gemini-1.5-flash": "gemini-flash-latest",
+                "gemini-1.5-pro": "gemini-pro-latest",
+                "gemini-pro": "gemini-pro-latest",
+                "gemini-2.5-flash": "gemini-2.5-flash",
+                "gemini-2.0-flash": "gemini-2.0-flash",
+            }
+            
+            # Normaliser le nom (enlever "models/" si présent)
+            clean_name = model_name.replace("models/", "").strip()
+            api_model_name = model_map.get(clean_name, clean_name)
+            
+            # Ajouter "models/" si nécessaire
+            if not api_model_name.startswith("models/"):
+                api_model_name = f"models/{api_model_name}"
             
             response = client.models.generate_content(
-                model=clean_model,
+                model=api_model_name,
                 contents=[
                     {
                         "role": "user",
@@ -187,7 +201,7 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model_name", default="gemini-1.5-flash", help="gemini-1.5-flash, gemini-1.5-pro, gemini-2.0-flash-exp, etc.")
+    ap.add_argument("--model_name", default="gemini-flash-latest", help="gemini-flash-latest, gemini-pro-latest, gemini-2.5-flash, gemini-2.0-flash, etc. (ou gemini-1.5-flash sera mappé vers gemini-flash-latest)")
     ap.add_argument("--dataset_name", default="stogian/srbench")
     ap.add_argument("--dataset_split", default="test")
     ap.add_argument("--splits", nargs="+", default=["mrt_easy", "mrt_hard"])

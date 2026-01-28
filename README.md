@@ -158,22 +158,25 @@ Smoke test (Gemini Flash):
 
 ```bash
 python -m srbench_qwen_mrt_gemini.eval_gemini_mrt \
-  --model_name gemini-1.5-flash \
+  --model_name gemini-flash-latest \
   --splits mrt_easy mrt_hard \
   --max_samples 20 \
   --out_dir runs/gemini_flash_mrt
 ```
 
-Modèles disponibles:
-- `gemini-1.5-flash` (rapide, gratuit)
-- `gemini-1.5-pro` (plus performant)
-- `gemini-2.0-flash-exp` (expérimental, si disponible)
+Modèles disponibles (vérifier avec `python -m srbench_qwen_mrt_gemini.list_models`):
+- `gemini-flash-latest` (rapide, gratuit) - **recommandé**
+- `gemini-pro-latest` (plus performant)
+- `gemini-2.5-flash` (nouveau, meilleur)
+- `gemini-2.0-flash` (version 2.0)
+
+**Note**: Les noms `gemini-1.5-flash` et `gemini-1.5-pro` sont automatiquement mappés vers `gemini-flash-latest` et `gemini-pro-latest`.
 
 Run complet (sans shuffle pour garder easy/hard séparés):
 
 ```bash
 python -m srbench_qwen_mrt_gemini.eval_gemini_mrt \
-  --model_name gemini-1.5-flash \
+  --model_name gemini-flash-latest \
   --splits mrt_easy mrt_hard \
   --max_samples -1 \
   --out_dir runs/gemini_flash_full
