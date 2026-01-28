@@ -128,7 +128,34 @@ def openai_client():
     # For now we use the official OpenAI Python SDK v1.
     from openai import OpenAI
 
-    return OpenAI()
+    def _clean_header_value(s: Optional[str]) -> Optional[str]:
+        if s is None:
+            return None
+        # Remove common invisible / non-ASCII separators that break httpx header encoding.
+        return (
+            s.strip()
+            .replace("\u2028", "")
+            .replace("\u2029", "")
+            .replace("\r", "")
+            .replace("\n", "")
+        )
+
+    api_key = _clean_header_value(os.getenv("OPENAI_API_KEY"))
+    if not api_key:
+        # keep default behavior/error elsewhere
+        return OpenAI()
+
+    # Optional headers used by the SDK (if set). Sanitize them too.
+    organization = _clean_header_value(os.getenv("OPENAI_ORG_ID"))
+    project = _clean_header_value(os.getenv("OPENAI_PROJECT_ID"))
+
+    kwargs: Dict[str, Any] = {"api_key": api_key}
+    if organization:
+        kwargs["organization"] = organization
+    if project:
+        kwargs["project"] = project
+
+    return OpenAI(**kwargs)
 
 
 def call_gpt4o(image: Image.Image, question: str, model_name: str, max_output_tokens: int) -> str:
