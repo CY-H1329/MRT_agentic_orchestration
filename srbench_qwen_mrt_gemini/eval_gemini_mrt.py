@@ -115,6 +115,25 @@ def compute_metrics(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
     }
 
 
+def _normalize_model_name(model_name: str) -> str:
+    """Normalise le nom du modèle pour l'API Google Generative AI."""
+    # Mapping des noms communs vers les noms corrects de l'API
+    mapping = {
+        "gemini-1.5-flash": "gemini-1.5-flash",
+        "gemini-1.5-pro": "gemini-1.5-pro",
+        "gemini-pro": "gemini-pro",
+        "gemini-2.0-flash-exp": "gemini-2.0-flash-exp",
+    }
+    # Si le nom contient déjà "models/", on le garde tel quel
+    if model_name.startswith("models/"):
+        return model_name
+    # Sinon, on essaie le mapping ou on ajoute "models/" si nécessaire
+    normalized = mapping.get(model_name, model_name)
+    if not normalized.startswith("models/"):
+        normalized = f"models/{normalized}"
+    return normalized
+
+
 def call_gemini(image: Image.Image, question: str, model_name: str, max_output_tokens: int) -> str:
     # NOTE: google.generativeai est déprécié mais fonctionne encore.
     # Migrer vers google.genai quand disponible.
@@ -131,7 +150,30 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
     genai.configure(api_key=_clean(api_key))
     prompt = _build_prompt(question)
 
-    model = genai.GenerativeModel(model_name)
+    # L'ancienne API google.generativeai utilise des noms simples sans préfixe "models/"
+    # Mapping vers les noms corrects
+    clean_name = model_name.replace("models/", "").strip()
+    
+    # Noms corrects pour l'ancienne API
+    model_map = {
+        "gemini-1.5-flash": "gemini-1.5-flash",
+        "gemini-1.5-flash-latest": "gemini-1.5-flash",
+        "gemini-1.5-pro": "gemini-1.5-pro",
+        "gemini-1.5-pro-latest": "gemini-1.5-pro",
+        "gemini-pro": "gemini-pro",
+        "gemini-2.0-flash-exp": "gemini-2.0-flash-exp",
+    }
+    
+    api_model_name = model_map.get(clean_name, clean_name)
+    
+    try:
+        model = genai.GenerativeModel(api_model_name)
+    except Exception as e:
+        # Si ça échoue, essayer "gemini-pro" (modèle de base toujours disponible)
+        try:
+            model = genai.GenerativeModel("gemini-pro")
+        except:
+            return f"ERROR: Model '{model_name}' not found. Tried '{api_model_name}' and 'gemini-pro'. Error: {str(e)}"
 
     try:
         # Essayer d'abord avec PIL.Image directement (format le plus simple)
@@ -187,7 +229,7 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model_name", default="gemini-1.5-flash", help="gemini-1.5-flash, gemini-1.5-pro, gemini-2.0-flash-exp, etc.")
+    ap.add_argument("--model_name", default="gemini-1.5-flash-latest", help="gemini-1.5-flash-latest, gemini-1.5-pro-latest, gemini-pro, etc.")
     ap.add_argument("--dataset_name", default="stogian/srbench")
     ap.add_argument("--dataset_split", default="test")
     ap.add_argument("--splits", nargs="+", default=["mrt_easy", "mrt_hard"])
