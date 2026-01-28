@@ -1,0 +1,5215 @@
+{
+  "model_name": "gpt-4o",
+  "dataset_name": "stogian/srbench",
+  "dataset_split": "test",
+  "splits": [
+    "mrt_easy",
+    "mrt_hard"
+  ],
+  "max_samples": -1,
+  "shuffle": false,
+  "seed": null,
+  "total_examples": 400,
+  "results": [
+    {
+      "idx": 0,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 1,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 2,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 3,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 4,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 5,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 6,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 7,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 8,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 9,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 10,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 11,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 12,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 13,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 14,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 15,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 16,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 17,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 18,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 19,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 20,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 21,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 22,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 23,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 24,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 25,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 26,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 27,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 28,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 29,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 30,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 31,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 32,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 33,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 34,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 35,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 36,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 37,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 38,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 39,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 40,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 41,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 42,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 43,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 44,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 45,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 46,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 47,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 48,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 49,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 50,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 51,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 52,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 53,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 54,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 55,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 56,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 57,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 58,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 59,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 60,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 61,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 62,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 63,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 64,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 65,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 66,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": true,
+      "image_size": [
+        286,
+        255
+      ]
+    },
+    {
+      "idx": 67,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 68,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 69,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 70,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 71,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 72,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        255
+      ]
+    },
+    {
+      "idx": 73,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 74,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 75,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 76,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 77,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 78,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 79,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 80,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 81,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 82,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 83,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 84,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 85,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 86,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 87,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 88,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 89,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 90,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 91,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 92,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 93,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 94,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 95,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 96,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 97,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 98,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 99,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 100,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 101,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 102,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 103,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 104,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 105,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 106,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 107,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 108,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 109,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 110,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 111,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 112,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 113,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 114,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 115,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 116,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 117,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 118,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 119,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 120,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 121,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 122,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 123,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 124,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 125,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 126,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 127,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 128,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 129,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 130,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 131,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 132,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 133,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 134,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 135,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 136,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 137,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 138,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 139,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 140,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 141,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 142,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 143,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 144,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 145,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 146,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 147,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 148,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 149,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 150,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 151,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 152,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 153,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 154,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        255
+      ]
+    },
+    {
+      "idx": 155,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 156,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 157,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 158,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 159,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 160,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 161,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 162,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 163,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 164,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 165,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 166,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 167,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 168,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 169,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 170,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 171,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 172,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        286,
+        255
+      ]
+    },
+    {
+      "idx": 173,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 174,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 175,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 176,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 177,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 178,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 179,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 180,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 181,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 182,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 183,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 184,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 185,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 186,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 187,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 188,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 189,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 190,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 191,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 192,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 193,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 194,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 195,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "C",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 196,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 197,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 198,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": true,
+      "image_size": [
+        286,
+        257
+      ]
+    },
+    {
+      "idx": 199,
+      "split": "mrt_easy",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Center, C. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        287,
+        257
+      ]
+    },
+    {
+      "idx": 200,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 201,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 202,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 203,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 204,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 205,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 206,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 207,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 208,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 209,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 210,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 211,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 212,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 213,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 214,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 215,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 216,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 217,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 218,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 219,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 220,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 221,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 222,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 223,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 224,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 225,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 226,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 227,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 228,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 229,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 230,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 231,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 232,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 233,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 234,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 235,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 236,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 237,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 238,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 239,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 240,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 241,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 242,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 243,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 244,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 245,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 246,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 247,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 248,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 249,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 250,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 251,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 252,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 253,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 254,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 255,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 256,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 257,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 258,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 259,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 260,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 261,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 262,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 263,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 264,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 265,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 266,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 267,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 268,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 269,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 270,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 271,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 272,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 273,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 274,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 275,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 276,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 277,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 278,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 279,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 280,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 281,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 282,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 283,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 284,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 285,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 286,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 287,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 288,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 289,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 290,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 291,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 292,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 293,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 294,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 295,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 296,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 297,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 298,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 299,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 300,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 301,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 302,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 303,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 304,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 305,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 306,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 307,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 308,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 309,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 310,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 311,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 312,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 313,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 314,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 315,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 316,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 317,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 318,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 319,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 320,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 321,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 322,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 323,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 324,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 325,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 326,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 327,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 328,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 329,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 330,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 331,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 332,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 333,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 334,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 335,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 336,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 337,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 338,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 339,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 340,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 341,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 342,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 343,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 344,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 345,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 346,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 347,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 348,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 349,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 350,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 351,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 352,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 353,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 354,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 355,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 356,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 357,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 358,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 359,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 360,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 361,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 362,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 363,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 364,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 365,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 366,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 367,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 368,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 369,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 370,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 371,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 372,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 373,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 374,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 375,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 376,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 377,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 378,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 379,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 380,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 381,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 382,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 383,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 384,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 385,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 386,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 387,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "D",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 388,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 389,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 390,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 391,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 392,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 393,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 394,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "B",
+      "model_raw_output": "B",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 395,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 396,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "A",
+      "model_prediction": "A",
+      "model_raw_output": "A",
+      "correct": true,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 397,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 398,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "B",
+      "model_prediction": "C",
+      "model_raw_output": "C",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    },
+    {
+      "idx": 399,
+      "split": "mrt_hard",
+      "question": "This image shows a 3D polycube shape. Which of the options is simply the original shape in a rotated orientation?\nOnly one of the options is correct.\nAvailable options: A. Left, B. Middle-Left, C. Middle-Right, D. Right",
+      "ground_truth": "C",
+      "model_prediction": "D",
+      "model_raw_output": "D",
+      "correct": false,
+      "image_size": [
+        558,
+        330
+      ]
+    }
+  ]
+}

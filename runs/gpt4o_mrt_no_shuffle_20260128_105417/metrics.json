@@ -1,0 +1,24 @@
+{
+  "n": 400,
+  "accuracy": 0.285,
+  "by_split": {
+    "mrt_easy": {
+      "n": 200,
+      "accuracy": 0.3
+    },
+    "mrt_hard": {
+      "n": 200,
+      "accuracy": 0.27
+    }
+  },
+  "model_name": "gpt-4o",
+  "dataset_name": "stogian/srbench",
+  "dataset_split": "test",
+  "splits": [
+    "mrt_easy",
+    "mrt_hard"
+  ],
+  "max_samples": -1,
+  "shuffle": false,
+  "seed": null
+}
