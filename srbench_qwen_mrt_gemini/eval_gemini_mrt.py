@@ -46,6 +46,10 @@ def _parse_choice(text: str) -> Optional[str]:
     if not text:
         return None
     
+    # Si c'est le code d'erreur MAX_TOKENS, retourner None
+    if text.strip().upper() == "MAX_TOKENS":
+        return None
+    
     # Nettoyer et mettre en majuscules
     t = text.strip().upper()
     
@@ -75,10 +79,10 @@ def _parse_choice(text: str) -> Optional[str]:
 def _build_prompt(question: str) -> str:
     # Prompt très strict pour forcer une réponse d'une seule lettre
     # IMPORTANT: On demande la lettre EN PREMIER pour éviter MAX_TOKENS
+    # Utiliser un format très direct pour minimiser les tokens générés
     return (
         f"{question}\n\n"
-        "Answer with ONLY ONE LETTER: A, B, C, or D.\n"
-        "Do not write any explanation. Just the letter."
+        "Answer: A, B, C, or D. One letter only."
     )
 
 
@@ -274,16 +278,19 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                     pass
                 
                 # Méthode 2: response.text (propriété calculée)
+                # IMPORTANT: Même si text_value=null dans le debug, essaie quand même
                 try:
-                    if hasattr(resp, "text") and resp.text:
-                        text = str(resp.text).strip()
-                        if text:  # Même si tronqué, on peut extraire la lettre
-                            return text
+                    if hasattr(resp, "text"):
+                        text_val = resp.text
+                        if text_val:
+                            text = str(text_val).strip()
+                            if text:
+                                return text
                 except (AttributeError, TypeError):
                     pass
                 
                 # Méthode 3: candidates[0].content.parts[0].text (parcourir tous les candidates et parts)
-                # IMPORTANT: Même si finish_reason=MAX_TOKENS, le texte partiel peut être présent
+                # IMPORTANT: Même si finish_reason=MAX_TOKENS et parts_len=0, vérifier quand même
                 try:
                     if hasattr(resp, "candidates") and resp.candidates and len(resp.candidates) > 0:
                         candidate = resp.candidates[0]
@@ -323,49 +330,20 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                 return text
             
             # Si on arrive ici, aucune méthode n'a fonctionné
-            # Essayer une dernière fois avec une extraction plus agressive
+            # Vérifier si finish_reason=MAX_TOKENS - dans ce cas, il n'y a vraiment pas de texte
+            # (le debug montre parts_len=0 et text_value=null)
             try:
-                # Vérifier si finish_reason=MAX_TOKENS et essayer d'extraire le texte partiel
                 if hasattr(response, "candidates") and response.candidates and len(response.candidates) > 0:
                     cand = response.candidates[0]
                     finish_reason = getattr(cand, "finish_reason", None)
                     
-                    # Même avec MAX_TOKENS, le texte partiel devrait être dans content.parts
                     if finish_reason and "MAX_TOKENS" in str(finish_reason):
-                        # Méthode 1: content.parts
-                        content = getattr(cand, "content", None)
-                        if content:
-                            parts = getattr(content, "parts", None) or []
-                            for p in parts:
-                                t = getattr(p, "text", None)
-                                if t:
-                                    partial_text = str(t).strip()
-                                    if partial_text:
-                                        return partial_text
-                        
-                        # Méthode 2: Essayer d'accéder directement à tous les attributs de candidate
-                        for attr_name in dir(cand):
-                            if attr_name.startswith("_"):
-                                continue
-                            try:
-                                attr_val = getattr(cand, attr_name)
-                                if isinstance(attr_val, str) and attr_val.strip():
-                                    # Si c'est une string non vide, peut-être que c'est le texte ?
-                                    if len(attr_val.strip()) <= 10:  # Probablement une lettre
-                                        return attr_val.strip()
-                            except:
-                                pass
-                        
-                        # Méthode 3: Essayer response directement
-                        for attr_name in dir(response):
-                            if attr_name.startswith("_") or attr_name in ["parts", "candidates", "text"]:
-                                continue
-                            try:
-                                attr_val = getattr(response, attr_name)
-                                if isinstance(attr_val, str) and attr_val.strip() and len(attr_val.strip()) <= 10:
-                                    return attr_val.strip()
-                            except:
-                                pass
+                        # Si MAX_TOKENS et parts_len=0, il n'y a vraiment pas de texte généré
+                        # Cela signifie que Gemini a généré des tokens "cachés" (thinking) qui ont consommé la limite
+                        # avant même de générer la première lettre
+                        # Dans ce cas, on ne peut rien faire - il faut augmenter max_output_tokens
+                        # ou utiliser un prompt encore plus strict
+                        return "MAX_TOKENS"  # Retourner un code d'erreur spécial pour le parser
             except Exception:
                 pass
             
@@ -451,7 +429,7 @@ def main() -> None:
     ap.add_argument("--max_samples", type=int, default=-1)
     ap.add_argument("--shuffle", action="store_true")
     ap.add_argument("--seed", type=int, default=None)
-    ap.add_argument("--max_output_tokens", type=int, default=512, help="Augmenter si finish_reason=MAX_TOKENS (réponse tronquée). Par défaut: 512 (devrait être suffisant même avec explication)")
+    ap.add_argument("--max_output_tokens", type=int, default=1024, help="Augmenter si finish_reason=MAX_TOKENS (réponse tronquée). Par défaut: 1024 (pour éviter MAX_TOKENS même si Gemini génère des explications)")
     ap.add_argument("--out_dir", default=None)
     ap.add_argument("--debug", action="store_true", help="Afficher les 5 premières réponses brutes pour debug")
     ap.add_argument("--debug_response", action="store_true", help="Afficher la structure complète de la réponse Gemini (très verbeux)")
