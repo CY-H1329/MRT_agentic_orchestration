@@ -1,7 +1,13 @@
-torch
-transformers
-accelerate
-datasets
 pillow
-tqdm
 numpy
+tqdm
+
+# Qwen2.5-VL: nécessite une version récente de transformers.
+# (Sinon AutoProcessor peut planter dans les modules "video_processing_auto".)
+transformers>=4.48.0
+accelerate>=0.30.0
+datasets>=2.18.0
+
+# Laissez torch être géré côté serveur CUDA si besoin (pip/conda).
+# Si vous voulez pip ici, décommentez la ligne ci-dessous et installez la wheel CUDA appropriée.
+# torch

@@ -69,3 +69,15 @@ Voir la section “Mise en place du runner H100” plus bas.
   - ensemble de prompts / calibrations
   - mesures d’incertitude / abstention
 
+### Dépannage (JupyterHub / H100)
+
+Si vous voyez une erreur du type:
+
+- `TypeError: argument of type 'NoneType' is not iterable` dans `transformers/models/auto/video_processing_auto.py`
+
+Alors vous avez une **version trop ancienne** de `transformers`. Corrigez avec:
+
+```bash
+pip install -U "transformers>=4.48.0" "accelerate>=0.30.0" "datasets>=2.18.0"
+```
+
