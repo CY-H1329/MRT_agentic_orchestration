@@ -79,9 +79,10 @@ def _parse_choice(text: str) -> Optional[str]:
 def _build_prompt(question: str) -> str:
     # Prompt ultra-strict pour forcer EXACTEMENT une seule lettre
     # Format minimal pour éviter MAX_TOKENS
+    # IMPORTANT: Ne pas mettre de point final ou saut de ligne - stop_sequences s'en chargera
     return (
         f"{question}\n\n"
-        "Answer with exactly ONE character: A, B, or C. Do not add anything else."
+        "Answer with exactly ONE character: A, B, or C"
     )
 
 
@@ -191,15 +192,22 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                 try:
                     # Utiliser types.GenerateContentConfig() au lieu d'un dict simple
                     # C'est le format correct pour l'API google.genai
+                    # Ajouter stop_sequences pour forcer l'arrêt après A/B/C
                     try:
                         from google.genai import types
+                        # stop_sequences: arrêter après A, B, ou C (avec espace après pour éviter d'arrêter au milieu d'un mot)
                         config = types.GenerateContentConfig(
                             max_output_tokens=max_output_tokens,
                             temperature=0.0,
+                            stop_sequences=["\n", ".", "A\n", "B\n", "C\n", "D\n"],  # Arrêter après la lettre
                         )
                     except ImportError:
                         # Fallback vers dict si types n'est pas disponible
-                        config = {"max_output_tokens": max_output_tokens, "temperature": 0.0}
+                        config = {
+                            "max_output_tokens": max_output_tokens,
+                            "temperature": 0.0,
+                            "stop_sequences": ["\n", ".", "A\n", "B\n", "C\n", "D\n"],
+                        }
                     
                     # Log pour vérifier que max_output_tokens est bien passé
                     if debug_response:
@@ -429,7 +437,7 @@ def main() -> None:
     ap.add_argument("--max_samples", type=int, default=-1)
     ap.add_argument("--shuffle", action="store_true")
     ap.add_argument("--seed", type=int, default=None)
-    ap.add_argument("--max_output_tokens", type=int, default=16, help="Tokens max pour la réponse. Par défaut: 16 (suffisant pour une lettre + overhead minimal). Ne pas mettre <10 car Gemini a besoin de tokens pour le formatage.")
+    ap.add_argument("--max_output_tokens", type=int, default=64, help="Tokens max pour la réponse. Par défaut: 64. Avec stop_sequences, cela devrait être suffisant. Si MAX_TOKENS persiste, augmenter à 128-256.")
     ap.add_argument("--out_dir", default=None)
     ap.add_argument("--debug", action="store_true", help="Afficher les 5 premières réponses brutes pour debug")
     ap.add_argument("--debug_response", action="store_true", help="Afficher la structure complète de la réponse Gemini (très verbeux)")
