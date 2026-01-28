@@ -39,26 +39,45 @@ def _now_id() -> str:
 
 
 def _parse_choice(text: str) -> Optional[str]:
+    """
+    Parse robuste pour extraire A/B/C/D de la réponse Gemini.
+    Utilise regex \b([ABCD])\b pour trouver la lettre n'importe où dans le texte.
+    """
     if not text:
         return None
+    
+    # Nettoyer et mettre en majuscules
     t = text.strip().upper()
+    
+    # Méthode 1: \b([ABCD])\b (le plus robuste - trouve la lettre entourée de word boundaries)
     m = re.search(r"\b([ABCD])\b", t)
     if m:
         return m.group(1)
-    m = re.search(r"\(([ABCD])\)", t)
+    
+    # Méthode 2: (A) ou [A] ou "A"
+    for pattern in [r"\(([ABCD])\)", r"\[([ABCD])\]", r'"([ABCD])"', r"'([ABCD])'"]:
+        m = re.search(pattern, t)
+        if m:
+            return m.group(1)
+    
+    # Méthode 3: Lettre isolée au début ou à la fin
+    m = re.match(r"^\s*([ABCD])\s*[.\-:)]?\s*$", t)
     if m:
         return m.group(1)
-    m = re.match(r"^\s*([ABCD])\s*(?:[.\-:)]|\s|$)", t)
+    
+    m = re.search(r"([ABCD])\s*$", t)
     if m:
         return m.group(1)
+    
     return None
 
 
 def _build_prompt(question: str) -> str:
+    # Prompt très strict pour forcer une réponse d'une seule lettre
     return (
         f"{question}\n\n"
-        "Réponds avec UNE SEULE LETTRE parmi {A,B,C,D}.\n"
-        "N'ajoute aucun autre texte."
+        "IMPORTANT: Réponds avec EXACTEMENT UNE SEULE LETTRE: A, B, C, ou D.\n"
+        "Ne mets rien d'autre. Juste la lettre."
     )
 
 
@@ -199,59 +218,86 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             if debug_response:
                 import json
                 try:
+                    finish_reason = None
+                    if hasattr(response, "candidates") and response.candidates and len(response.candidates) > 0:
+                        finish_reason = getattr(response.candidates[0], "finish_reason", None)
+                    
                     debug_info = {
                         "type": str(type(response)),
                         "has_text": hasattr(response, "text"),
                         "text_value": getattr(response, "text", None),
+                        "has_parts": hasattr(response, "parts"),
+                        "parts_len": len(response.parts) if hasattr(response, "parts") and response.parts else 0,
                         "has_candidates": hasattr(response, "candidates"),
-                        "candidates_value": getattr(response, "candidates", None),
-                        "dir": [x for x in dir(response) if not x.startswith("_")],
+                        "candidates_len": len(response.candidates) if hasattr(response, "candidates") and response.candidates else 0,
+                        "finish_reason": str(finish_reason) if finish_reason else None,
                     }
                     print(f"[DEBUG RESPONSE] {json.dumps(debug_info, indent=2, default=str)}")
                 except Exception as e:
                     print(f"[DEBUG RESPONSE] Error inspecting: {e}")
             
-            # Extraire le texte de la réponse (même méthode que check_gemini.py)
-            if response is None:
-                return "ERROR: Response is None"
-            
-            text = None
-            
-            # Méthode 1: response.parts[0].text (le plus fiable d'après les tests)
-            try:
-                if hasattr(response, "parts") and response.parts and len(response.parts) > 0:
-                    part = response.parts[0]
-                    if hasattr(part, "text") and part.text:
-                        text = str(part.text).strip()
-            except (TypeError, AttributeError, IndexError):
-                pass
-            
-            # Méthode 2: response.text (propriété calculée)
-            if not text:
+            # Fonction robuste pour extraire le texte (comme suggéré par l'utilisateur)
+            def extract_text(resp) -> Optional[str]:
+                """Extrait le texte de la réponse Gemini de manière robuste."""
+                if resp is None:
+                    return None
+                
+                # 1) response.text (propriété calculée, peut être None)
                 try:
-                    if hasattr(response, "text") and response.text:
-                        text = str(response.text).strip()
+                    if hasattr(resp, "text") and resp.text:
+                        return str(resp.text).strip()
                 except (AttributeError, TypeError):
                     pass
-            
-            # Méthode 3: candidates[0].content.parts[0].text (fallback)
-            if not text:
+                
+                # 2) response.parts[0].text (le plus fiable d'après check_gemini.py)
                 try:
-                    if hasattr(response, "candidates") and response.candidates and len(response.candidates) > 0:
-                        candidate = response.candidates[0]
-                        if hasattr(candidate, "content") and candidate.content:
-                            content = candidate.content
-                            if hasattr(content, "parts") and content.parts and len(content.parts) > 0:
-                                part = content.parts[0]
-                                if hasattr(part, "text") and part.text:
-                                    text = str(part.text).strip()
+                    if hasattr(resp, "parts") and resp.parts and len(resp.parts) > 0:
+                        part = resp.parts[0]
+                        if hasattr(part, "text") and part.text:
+                            return str(part.text).strip()
                 except (TypeError, AttributeError, IndexError):
                     pass
+                
+                # 3) candidates[0].content.parts (parcourir tous les candidates et parts)
+                try:
+                    candidates = getattr(resp, "candidates", None) or []
+                    for cand in candidates:
+                        content = getattr(cand, "content", None)
+                        if content:
+                            parts = getattr(content, "parts", None) or []
+                            for p in parts:
+                                t = getattr(p, "text", None)
+                                if t:
+                                    return str(t).strip()
+                except (TypeError, AttributeError, IndexError):
+                    pass
+                
+                return None
+            
+            # Extraire le texte
+            text = extract_text(response)
             
             if text:
                 return text
             else:
-                return "ERROR: No text found in response"
+                # Debug: afficher plus d'info pour comprendre pourquoi (finish_reason, etc.)
+                debug_parts = ["ERROR: No text found"]
+                try:
+                    debug_parts.append(f"type={type(response).__name__}")
+                    debug_parts.append(f"has_parts={hasattr(response, 'parts')}")
+                    if hasattr(response, "parts") and response.parts:
+                        debug_parts.append(f"parts_len={len(response.parts)}")
+                    debug_parts.append(f"has_candidates={hasattr(response, 'candidates')}")
+                    if hasattr(response, "candidates") and response.candidates and len(response.candidates) > 0:
+                        cand = response.candidates[0]
+                        finish_reason = getattr(cand, "finish_reason", None)
+                        debug_parts.append(f"finish_reason={finish_reason}")
+                        # Si finish_reason est MAX_TOKENS, c'est peut-être que max_output_tokens est trop petit
+                        if finish_reason and "MAX_TOKENS" in str(finish_reason):
+                            debug_parts.append("(MAX_TOKENS - peut-être max_output_tokens trop petit?)")
+                except Exception as e:
+                    debug_parts.append(f"debug_error={str(e)}")
+                return ". ".join(debug_parts)
         else:
             # Ancienne API (fallback, probablement ne fonctionnera pas)
             genai.configure(api_key=_clean(api_key))
@@ -274,7 +320,7 @@ def main() -> None:
     ap.add_argument("--max_samples", type=int, default=-1)
     ap.add_argument("--shuffle", action="store_true")
     ap.add_argument("--seed", type=int, default=None)
-    ap.add_argument("--max_output_tokens", type=int, default=16)
+    ap.add_argument("--max_output_tokens", type=int, default=32, help="Augmenter si finish_reason=MAX_TOKENS (réponse tronquée)")
     ap.add_argument("--out_dir", default=None)
     ap.add_argument("--debug", action="store_true", help="Afficher les 5 premières réponses brutes pour debug")
     ap.add_argument("--debug_response", action="store_true", help="Afficher la structure complète de la réponse Gemini (très verbeux)")
@@ -320,6 +366,10 @@ def main() -> None:
                 print(f"  Réponse brute Gemini: {raw}")
                 print(f"  Prédiction parsée: {pred}")
                 print(f"  Correct: {correct}")
+                
+                # Si verbose et que raw contient "ERROR", afficher plus de détails
+                if args.verbose and "ERROR" in raw:
+                    print(f"  ⚠️  Erreur détectée - vérifier la réponse Gemini")
 
             row = {"idx": ex.idx, "split": ex.split, "answer": ex.answer, "pred": pred, "correct": bool(correct), "raw": raw}
             rows.append(row)
