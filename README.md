@@ -125,6 +125,26 @@ python -m srbench_qwen_mrt.eval_mrt \
 - `runs/.../detailed_results.json`: **Résultats détaillés avec questions, réponses, comparaisons** (format JSON structuré)
 - `runs/.../metrics.json`: Métriques globales (accuracy par split)
 
+## Baseline API: GPT-4o (OpenAI)
+
+Pré-requis sur le serveur:
+
+```bash
+export OPENAI_API_KEY="..."
+pip install -U -r requirements.txt
+```
+
+Smoke test:
+
+```bash
+python -m srbench_qwen_mrt_openai.eval_gpt4o_mrt \
+  --model_name gpt-4o \
+  --splits mrt_easy mrt_hard \
+  --max_samples 20 \
+  --shuffle \
+  --out_dir runs/gpt4o_mrt
+```
+
 ## Exécution via GitHub Actions sur H100 (runner self-hosted)
 
 Ce repo inclut un workflow `.github/workflows/run_mrt.yml` conçu pour tourner sur un runner **self-hosted** (ex: machine H100).

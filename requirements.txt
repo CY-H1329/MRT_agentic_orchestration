@@ -12,6 +12,9 @@ datasets>=2.18.0
 # NOTE: qwen-vl-utils nécessite torchvision (dépendance non déclarée)
 qwen-vl-utils>=0.0.8
 
+# GPT-4o eval via OpenAI API
+openai>=1.0.0
+
 # Laissez torch/torchvision être géré côté serveur CUDA si besoin (pip/conda).
 # Si vous voulez pip ici, décommentez les lignes ci-dessous avec la wheel CUDA appropriée.
 # torch
