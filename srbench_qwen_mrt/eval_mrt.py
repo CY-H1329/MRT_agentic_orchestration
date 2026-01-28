@@ -17,6 +17,28 @@ from tqdm import tqdm
 from transformers import AutoProcessor, AutoTokenizer
 
 
+class _FallbackProcessor:
+    """
+    Fallback simple processor for older transformers where AutoProcessor may crash
+    (notably in video_processing_auto.py).
+
+    It combines an image processor + tokenizer into a dict compatible with model.generate.
+    """
+
+    def __init__(self, image_processor, tokenizer):
+        self.image_processor = image_processor
+        self.tokenizer = tokenizer
+
+    def __call__(self, text: str, images: Image.Image, return_tensors: str = "pt") -> Dict[str, Any]:
+        tok = self.tokenizer(text, return_tensors=return_tensors)
+        img = self.image_processor(images=images, return_tensors=return_tensors)
+        # Common key: pixel_values
+        return {**tok, **img}
+
+    def decode(self, ids, skip_special_tokens: bool = True) -> str:
+        return self.tokenizer.decode(ids, skip_special_tokens=skip_special_tokens)
+
+
 CHOICES = ["A", "B", "C", "D"]
 
 
@@ -126,12 +148,32 @@ def load_qwen_vl(model_name: str, device: str, dtype: str):
             trust_remote_code=True,
         )
 
-    processor = AutoProcessor.from_pretrained(model_name, trust_remote_code=True)
     tokenizer = None
     try:
         tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
     except Exception:
         tokenizer = None
+
+    # Primary path: AutoProcessor (best for Qwen2.5-VL)
+    try:
+        processor = AutoProcessor.from_pretrained(model_name, trust_remote_code=True)
+    except TypeError:
+        # Workaround for older transformers bug in video_processing_auto.py:
+        # TypeError: argument of type 'NoneType' is not iterable
+        from transformers import AutoImageProcessor
+
+        if tokenizer is None:
+            tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+        image_processor = AutoImageProcessor.from_pretrained(model_name, trust_remote_code=True)
+        processor = _FallbackProcessor(image_processor=image_processor, tokenizer=tokenizer)
+    except Exception:
+        # Last resort
+        from transformers import AutoImageProcessor
+
+        if tokenizer is None:
+            tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+        image_processor = AutoImageProcessor.from_pretrained(model_name, trust_remote_code=True)
+        processor = _FallbackProcessor(image_processor=image_processor, tokenizer=tokenizer)
 
     if device != "auto":
         model = model.to(device)
