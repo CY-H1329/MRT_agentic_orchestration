@@ -212,10 +212,6 @@ def main() -> None:
     print(json.dumps(metrics, ensure_ascii=False, indent=2))
 
 
-if __name__ == "__main__":
-    main()
-
-
 def _build_prompt_polycube(question: str, use_depth: bool) -> str:
     if not use_depth:
         return (
@@ -292,4 +288,8 @@ def predict_one_multi(
         return processor.decode(gen_ids, skip_special_tokens=True).strip()
     except Exception:
         return str(out_ids)
+
+
+if __name__ == "__main__":
+    main()
 
