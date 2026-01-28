@@ -162,19 +162,38 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             if not api_model_name.startswith("models/"):
                 api_model_name = f"models/{api_model_name}"
             
-            response = client.models.generate_content(
-                model=api_model_name,
-                contents=[
-                    {
-                        "role": "user",
-                        "parts": [
-                            {"inline_data": {"mime_type": "image/png", "data": base64.b64encode(image_bytes).decode("ascii")}},
-                            {"text": prompt},
+            # Retry avec backoff pour les erreurs 429 (quota)
+            max_retries = 3
+            for attempt in range(max_retries):
+                try:
+                    response = client.models.generate_content(
+                        model=api_model_name,
+                        contents=[
+                            {
+                                "role": "user",
+                                "parts": [
+                                    {"inline_data": {"mime_type": "image/png", "data": base64.b64encode(image_bytes).decode("ascii")}},
+                                    {"text": prompt},
+                                ],
+                            }
                         ],
-                    }
-                ],
-                config={"max_output_tokens": max_output_tokens, "temperature": 0.0},
-            )
+                        config={"max_output_tokens": max_output_tokens, "temperature": 0.0},
+                    )
+                    break  # Succès, sortir de la boucle
+                except Exception as e:
+                    error_str = str(e)
+                    # Si c'est une erreur 429 (quota), attendre et réessayer
+                    if "429" in error_str or "RESOURCE_EXHAUSTED" in error_str or "quota" in error_str.lower():
+                        if attempt < max_retries - 1:
+                            wait_time = (attempt + 1) * 10  # 10s, 20s, 30s
+                            if debug_response:
+                                print(f"[RETRY] Quota error, waiting {wait_time}s before retry {attempt+1}/{max_retries}")
+                            time.sleep(wait_time)
+                            continue
+                        else:
+                            return f"ERROR: Quota exceeded (429). Free tier limit: 20 requests/day per model. Please wait or upgrade to paid plan. Original error: {error_str[:200]}"
+                    # Autres erreurs: propager immédiatement
+                    raise
             
             # Debug: afficher la structure complète si demandé
             if debug_response:
@@ -196,41 +215,48 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             if response is None:
                 return "ERROR: Response is None"
             
-            # La nouvelle API google.genai: le texte peut être dans response.text OU dans response.parts
-            # OU dans response.candidates[0].content.parts[0].text
+            # La nouvelle API google.genai: le texte est généralement dans response.text
+            # Mais parfois response.text est None et le texte est dans candidates[0].content.parts[0].text
             
-            # 1. Essayer response.text d'abord
-            if hasattr(response, "text") and response.text is not None:
-                return str(response.text).strip()
+            # 1. Essayer response.text d'abord (propriété calculée)
+            try:
+                text = response.text
+                if text:
+                    return str(text).strip()
+            except (AttributeError, TypeError):
+                pass
             
-            # 2. Essayer response.parts directement
-            if hasattr(response, "parts") and response.parts:
-                for part in response.parts:
-                    if hasattr(part, "text") and part.text:
-                        return str(part.text).strip()
-            
-            # 3. Fallback: chercher dans candidates[0].content.parts[0].text
-            if hasattr(response, "candidates") and response.candidates:
-                try:
-                    # Accéder directement au premier candidate
-                    if len(response.candidates) > 0:
-                        candidate = response.candidates[0]
-                        # Ignorer si c'est une string (représentation)
-                        if isinstance(candidate, str):
-                            pass
-                        elif hasattr(candidate, "content") and candidate.content:
+            # 2. Fallback: chercher dans candidates[0].content.parts[0].text
+            # (d'après le debug, c'est là que le texte est quand response.text est None)
+            try:
+                if hasattr(response, "candidates") and response.candidates:
+                    candidates = response.candidates
+                    if candidates and len(candidates) > 0:
+                        candidate = candidates[0]
+                        # candidate est un objet, pas une string
+                        if hasattr(candidate, "content"):
                             content = candidate.content
-                            if hasattr(content, "parts") and content.parts:
-                                if len(content.parts) > 0:
-                                    part = content.parts[0]
+                            if content and hasattr(content, "parts"):
+                                parts = content.parts
+                                if parts and len(parts) > 0:
+                                    part = parts[0]
                                     if hasattr(part, "text") and part.text:
                                         return str(part.text).strip()
-                except (TypeError, AttributeError, IndexError) as e:
-                    if debug_response:
-                        return f"ERROR accessing candidates[0]: {e}"
+            except (TypeError, AttributeError, IndexError) as e:
+                if debug_response:
+                    return f"ERROR accessing candidates: {e}"
+            
+            # 3. Dernier recours: essayer response.parts directement
+            try:
+                if hasattr(response, "parts") and response.parts:
+                    for part in response.parts:
+                        if hasattr(part, "text") and part.text:
+                            return str(part.text).strip()
+            except (TypeError, AttributeError):
+                pass
             
             # Si on arrive ici, la réponse n'a pas de texte lisible
-            return f"ERROR: No text found. Response type: {type(response)}, has_text: {hasattr(response, 'text')}, text={getattr(response, 'text', None)}"
+            return f"ERROR: No text found. Response type: {type(response)}"
         else:
             # Ancienne API (fallback, probablement ne fonctionnera pas)
             genai.configure(api_key=_clean(api_key))

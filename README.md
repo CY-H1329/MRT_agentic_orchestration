@@ -147,6 +147,10 @@ python -m srbench_qwen_mrt_openai.eval_gpt4o_mrt \
 
 ## Baseline API: Gemini (Google)
 
+**⚠️ Note importante**: Le quota gratuit de Gemini est limité à **20 requêtes/jour par modèle**. Si tu vois l'erreur `429 RESOURCE_EXHAUSTED`, soit:
+- Attendre le reset quotidien du quota
+- Upgrader vers un plan payant
+
 Pré-requis sur le serveur:
 
 ```bash
