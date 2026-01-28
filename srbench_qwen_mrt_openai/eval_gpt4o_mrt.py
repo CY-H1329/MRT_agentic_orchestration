@@ -137,22 +137,24 @@ def call_gpt4o(image: Image.Image, question: str, model_name: str, max_output_to
     data_url = _pil_to_data_url(image)
     prompt = _build_prompt(question)
 
-    resp = client.responses.create(
+    # OpenAI API standard format for vision models
+    resp = client.chat.completions.create(
         model=model_name,
-        input=[
+        messages=[
             {
                 "role": "user",
                 "content": [
-                    {"type": "input_image", "image_url": data_url},
-                    {"type": "input_text", "text": prompt},
+                    {"type": "image_url", "image_url": {"url": data_url}},
+                    {"type": "text", "text": prompt},
                 ],
             }
         ],
-        max_output_tokens=max_output_tokens,
+        max_tokens=max_output_tokens,
+        temperature=0.0,  # Deterministic
     )
 
-    # SDK returns a structured response; `.output_text` is the simplest.
-    return (resp.output_text or "").strip()
+    # Extract text from response
+    return (resp.choices[0].message.content or "").strip()
 
 
 def main() -> None:
