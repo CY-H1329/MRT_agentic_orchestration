@@ -31,22 +31,50 @@ def main() -> None:
 
     # 2. Vérifier qwen-vl-utils
     process_vision_info = None
+    import_err = None
     try:
         from qwen_vl_utils import process_vision_info  # type: ignore
 
         print("✅ qwen-vl-utils: installé")
     except ImportError as e:
+        import_err = e
         # Essayer aussi l'import alternatif
         try:
             import qwen_vl_utils  # type: ignore
             process_vision_info = qwen_vl_utils.process_vision_info
             print("✅ qwen-vl-utils: installé (import alternatif)")
-        except (ImportError, AttributeError):
-            print("❌ qwen-vl-utils non installé ou import échoué")
-            print(f"   Erreur: {e}")
-            print("   Vérifiez avec: python -c 'from qwen_vl_utils import process_vision_info'")
-            print("   Installez avec: pip install qwen-vl-utils")
-            sys.exit(1)
+            import_err = None
+        except (ImportError, AttributeError) as e2:
+            import_err = e2
+
+    if import_err is not None:
+        print("❌ qwen-vl-utils non installé ou import échoué")
+        print(f"   Erreur ImportError: {import_err}")
+        print(f"   Type: {type(import_err).__name__}")
+        print("\n   Diagnostic:")
+        print(f"   - Python: {sys.executable}")
+        print(f"   - PYTHONPATH: {sys.path[:3]}...")
+        
+        # Essayer de trouver où pip a installé
+        import subprocess
+        try:
+            result = subprocess.run(
+                [sys.executable, "-m", "pip", "show", "qwen-vl-utils"],
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode == 0:
+                print("   - pip show qwen-vl-utils:")
+                for line in result.stdout.split("\n")[:5]:
+                    if line.strip():
+                        print(f"     {line}")
+        except Exception:
+            pass
+        
+        print("\n   Test manuel:")
+        print("   python -c 'from qwen_vl_utils import process_vision_info'")
+        print("   python -c 'import qwen_vl_utils; print(qwen_vl_utils.__file__)'")
+        sys.exit(1)
 
     # 3. Vérifier torch
     print(f"\n✅ torch: {torch.__version__}")
