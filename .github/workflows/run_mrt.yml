@@ -1,0 +1,53 @@
+name: run-mrt-qwen
+
+on:
+  workflow_dispatch:
+    inputs:
+      model_name:
+        description: "Hugging Face model id"
+        required: true
+        default: "Qwen/Qwen2.5-VL-7B-Instruct"
+      max_samples:
+        description: "-1 pour tout"
+        required: true
+        default: "-1"
+
+permissions:
+  contents: write
+
+jobs:
+  eval:
+    runs-on: [self-hosted, h100]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install deps
+        run: |
+          python -m pip install -U pip
+          pip install -r requirements.txt
+
+      - name: Run evaluation (mrt_easy, mrt_hard)
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HUGGINGFACE_HUB_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          OUT_DIR="runs/$(echo '${{ inputs.model_name }}' | tr '/' '_' )_$(date +%Y%m%d_%H%M%S)"
+          python -m srbench_qwen_mrt.eval_mrt \
+            --model_name "${{ inputs.model_name }}" \
+            --splits mrt_easy mrt_hard \
+            --max_samples "${{ inputs.max_samples }}" \
+            --out_dir "${OUT_DIR}"
+          echo "OUT_DIR=${OUT_DIR}" >> $GITHUB_ENV
+
+      - name: Commit & push results
+        run: |
+          git add runs/
+          git status --porcelain
+          git commit -m "Add MRT results: ${{ inputs.model_name }}" || echo "No changes to commit"
+          git push
+
