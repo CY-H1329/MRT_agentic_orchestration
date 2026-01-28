@@ -278,6 +278,7 @@ def main() -> None:
     ap.add_argument("--out_dir", default=None)
     ap.add_argument("--debug", action="store_true", help="Afficher les 5 premières réponses brutes pour debug")
     ap.add_argument("--debug_response", action="store_true", help="Afficher la structure complète de la réponse Gemini (très verbeux)")
+    ap.add_argument("--verbose", action="store_true", help="Afficher toutes les réponses brutes (question, réponse attendue, réponse Gemini, prédiction)")
     args = ap.parse_args()
 
     if args.out_dir is None:
@@ -293,23 +294,32 @@ def main() -> None:
 
     rows: List[Dict[str, Any]] = []
     detailed: List[Dict[str, Any]] = []
-    debug_count = 0
+    example_count = 0
 
     with (out_dir / "predictions.jsonl").open("w", encoding="utf-8") as f:
-        for ex in tqdm(iter_examples(ds, args.splits, args.max_samples, args.shuffle, args.seed), desc="Evaluating"):
+        iterator = iter_examples(ds, args.splits, args.max_samples, args.shuffle, args.seed)
+        if args.verbose:
+            iterator = list(iterator)  # Convertir en liste pour afficher sans tqdm
+        else:
+            iterator = tqdm(iterator, desc="Evaluating")
+        
+        for ex in iterator:
             raw = call_gemini(ex.image, ex.question, args.model_name, args.max_output_tokens, debug_response=args.debug_response)
-            
-            # Debug: afficher les premières réponses
-            if args.debug and debug_count < 5:
-                print(f"\n[DEBUG {debug_count+1}]")
-                print(f"  Question: {ex.question[:100]}...")
-                print(f"  Réponse attendue: {ex.answer}")
-                print(f"  Réponse brute Gemini: {raw[:200]}")
-                debug_count += 1
             
             pred = _parse_choice(raw)
             pred = pred if pred in CHOICES else None
             correct = (pred == ex.answer)
+            
+            example_count += 1
+            
+            # Afficher les réponses (debug ou verbose)
+            if args.verbose or (args.debug and example_count <= 5):
+                print(f"\n[Exemple {example_count}]")
+                print(f"  Question: {ex.question[:150]}...")
+                print(f"  Réponse attendue: {ex.answer}")
+                print(f"  Réponse brute Gemini: {raw}")
+                print(f"  Prédiction parsée: {pred}")
+                print(f"  Correct: {correct}")
 
             row = {"idx": ex.idx, "split": ex.split, "answer": ex.answer, "pred": pred, "correct": bool(correct), "raw": raw}
             rows.append(row)

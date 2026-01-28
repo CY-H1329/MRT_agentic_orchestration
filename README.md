@@ -202,6 +202,17 @@ python -m srbench_qwen_mrt_gemini.eval_gemini_mrt \
   --out_dir runs/gemini_flash_full
 ```
 
+Pour voir toutes les réponses intermédiaires (utile pour debug):
+
+```bash
+python -m srbench_qwen_mrt_gemini.eval_gemini_mrt \
+  --model_name gemini-flash-latest \
+  --splits mrt_easy mrt_hard \
+  --max_samples 20 \
+  --verbose \
+  --out_dir runs/gemini_flash_verbose
+```
+
 ## Exécution via GitHub Actions sur H100 (runner self-hosted)
 
 Ce repo inclut un workflow `.github/workflows/run_mrt.yml` conçu pour tourner sur un runner **self-hosted** (ex: machine H100).
