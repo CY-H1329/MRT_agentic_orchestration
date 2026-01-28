@@ -140,14 +140,27 @@ def compute_metrics(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
 
 
 def call_gemini(image: Image.Image, question: str, model_name: str, max_output_tokens: int, debug_response: bool = False) -> str:
-    # Utiliser la nouvelle API google.genai (l'ancienne google.generativeai ne fonctionne plus)
+    # Essayer d'abord l'ancienne API google.generativeai (plus stable pour max_output_tokens)
+    # Puis fallback vers la nouvelle API google.genai si nécessaire
+    use_old_api = False
+    use_new_api = False
+    
     try:
-        import google.genai as genai
-        use_new_api = True
+        import google.generativeai as genai_old
+        use_old_api = True
+        if debug_response:
+            print("[DEBUG] Ancienne API google.generativeai disponible")
     except ImportError:
-        # Fallback vers l'ancienne API si google.genai n'est pas installé
-        import google.generativeai as genai
-        use_new_api = False
+        pass
+    
+    if not use_old_api:
+        try:
+            import google.genai as genai
+            use_new_api = True
+            if debug_response:
+                print("[DEBUG] Nouvelle API google.genai disponible")
+        except ImportError:
+            raise RuntimeError("Ni google.generativeai ni google.genai n'est installé. Installez avec: pip install google-generativeai ou pip install google-genai")
 
     api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
     if not api_key:
@@ -165,7 +178,40 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
     image_bytes = buf.getvalue()
 
     try:
-        if use_new_api:
+        if use_old_api:
+            # Ancienne API google.generativeai (plus stable pour max_output_tokens)
+            genai_old.configure(api_key=_clean(api_key))
+            model = genai_old.GenerativeModel(model_name.replace("models/", ""))
+            
+            # Utiliser generation_config avec stop_sequences
+            generation_config = {
+                "max_output_tokens": max_output_tokens,
+                "temperature": 0.0,
+                "stop_sequences": ["\n", ".", "A\n", "B\n", "C\n", "D\n"],
+            }
+            
+            if debug_response:
+                print(f"[DEBUG] Ancienne API: max_output_tokens={max_output_tokens}, model={model_name}")
+            
+            response = model.generate_content(
+                [image, prompt],
+                generation_config=generation_config,
+            )
+            
+            # Extraire le texte
+            text = (response.text or "").strip()
+            if text:
+                return text
+            else:
+                # Vérifier finish_reason
+                if hasattr(response, "candidates") and response.candidates:
+                    cand = response.candidates[0]
+                    finish_reason = getattr(cand, "finish_reason", None)
+                    if finish_reason and "MAX_TOKENS" in str(finish_reason):
+                        return "MAX_TOKENS"
+                return "ERROR: No text found"
+        
+        elif use_new_api:
             # Nouvelle API google.genai
             client = genai.Client(api_key=_clean(api_key))
             
@@ -416,14 +462,8 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             
             return ". ".join(debug_parts)
         else:
-            # Ancienne API (fallback, probablement ne fonctionnera pas)
-            genai.configure(api_key=_clean(api_key))
-            model = genai.GenerativeModel(model_name.replace("models/", ""))
-            response = model.generate_content(
-                [image, prompt],
-                generation_config={"max_output_tokens": max_output_tokens, "temperature": 0.0},
-            )
-            return (response.text or "").strip()
+            # Si ni l'ancienne ni la nouvelle API n'est disponible, erreur
+            raise RuntimeError("Aucune API Gemini disponible. Installez google-generativeai ou google-genai.")
     except Exception as e:
         return f"ERROR: {str(e)}"
 
