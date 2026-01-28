@@ -215,10 +215,21 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             if response is None:
                 return "ERROR: Response is None"
             
-            # La nouvelle API google.genai: le texte est généralement dans response.text
-            # Mais parfois response.text est None et le texte est dans candidates[0].content.parts[0].text
+            # D'après les tests: response.parts[0].text contient le texte
+            # response.text peut être None même si has_text=True
             
-            # 1. Essayer response.text d'abord (propriété calculée)
+            # 1. Essayer response.parts directement (le plus fiable d'après les tests)
+            try:
+                if hasattr(response, "parts") and response.parts:
+                    if len(response.parts) > 0:
+                        part = response.parts[0]
+                        if hasattr(part, "text") and part.text:
+                            return str(part.text).strip()
+            except (TypeError, AttributeError, IndexError) as e:
+                if debug_response:
+                    print(f"[DEBUG] Error accessing response.parts: {e}")
+            
+            # 2. Essayer response.text (propriété calculée, peut être None)
             try:
                 text = response.text
                 if text:
@@ -226,17 +237,15 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             except (AttributeError, TypeError):
                 pass
             
-            # 2. Fallback: chercher dans candidates[0].content.parts[0].text
-            # (d'après le debug, c'est là que le texte est quand response.text est None)
+            # 3. Fallback: chercher dans candidates[0].content.parts[0].text
             try:
                 if hasattr(response, "candidates") and response.candidates:
                     candidates = response.candidates
                     if candidates and len(candidates) > 0:
                         candidate = candidates[0]
-                        # candidate est un objet, pas une string
-                        if hasattr(candidate, "content"):
+                        if hasattr(candidate, "content") and candidate.content:
                             content = candidate.content
-                            if content and hasattr(content, "parts"):
+                            if hasattr(content, "parts") and content.parts:
                                 parts = content.parts
                                 if parts and len(parts) > 0:
                                     part = parts[0]
@@ -244,16 +253,7 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                                         return str(part.text).strip()
             except (TypeError, AttributeError, IndexError) as e:
                 if debug_response:
-                    return f"ERROR accessing candidates: {e}"
-            
-            # 3. Dernier recours: essayer response.parts directement
-            try:
-                if hasattr(response, "parts") and response.parts:
-                    for part in response.parts:
-                        if hasattr(part, "text") and part.text:
-                            return str(part.text).strip()
-            except (TypeError, AttributeError):
-                pass
+                    print(f"[DEBUG] Error accessing candidates: {e}")
             
             # Si on arrive ici, la réponse n'a pas de texte lisible
             return f"ERROR: No text found. Response type: {type(response)}"
