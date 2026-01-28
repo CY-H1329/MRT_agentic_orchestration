@@ -131,20 +131,57 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
     genai.configure(api_key=_clean(api_key))
     prompt = _build_prompt(question)
 
-    # Gemini accepte PIL.Image directement
     model = genai.GenerativeModel(model_name)
 
     try:
-        response = model.generate_content(
-            [image, prompt],
-            generation_config={
-                "max_output_tokens": max_output_tokens,
-                "temperature": 0.0,  # Deterministic
-            },
-        )
-        return (response.text or "").strip()
+        # Essayer d'abord avec PIL.Image directement (format le plus simple)
+        # Si ça ne marche pas, on peut convertir en base64
+        try:
+            response = model.generate_content(
+                [image, prompt],
+                generation_config=genai.types.GenerationConfig(
+                    max_output_tokens=max_output_tokens,
+                    temperature=0.0,
+                ),
+            )
+        except Exception as e1:
+            # Fallback: convertir l'image en base64
+            buf = BytesIO()
+            image.save(buf, format="PNG")
+            image_bytes = buf.getvalue()
+            import base64
+            image_b64 = base64.b64encode(image_bytes).decode("ascii")
+            
+            # Format avec base64
+            response = model.generate_content(
+                {
+                    "parts": [
+                        {"mime_type": "image/png", "data": image_b64},
+                        {"text": prompt},
+                    ],
+                },
+                generation_config=genai.types.GenerationConfig(
+                    max_output_tokens=max_output_tokens,
+                    temperature=0.0,
+                ),
+            )
+        
+        # Extraire le texte
+        if response and hasattr(response, "text"):
+            text = response.text
+            if text:
+                return text.strip()
+        
+        # Fallback: chercher dans candidates
+        if hasattr(response, "candidates") and response.candidates:
+            for candidate in response.candidates:
+                if hasattr(candidate, "content") and hasattr(candidate.content, "parts"):
+                    for part in candidate.content.parts:
+                        if hasattr(part, "text") and part.text:
+                            return part.text.strip()
+        
+        return "ERROR: Empty response"
     except Exception as e:
-        # Parfois Gemini retourne une exception si la réponse est bloquée
         return f"ERROR: {str(e)}"
 
 
@@ -159,6 +196,7 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=None)
     ap.add_argument("--max_output_tokens", type=int, default=16)
     ap.add_argument("--out_dir", default=None)
+    ap.add_argument("--debug", action="store_true", help="Afficher les 5 premières réponses brutes pour debug")
     args = ap.parse_args()
 
     if args.out_dir is None:
@@ -174,10 +212,20 @@ def main() -> None:
 
     rows: List[Dict[str, Any]] = []
     detailed: List[Dict[str, Any]] = []
+    debug_count = 0
 
     with (out_dir / "predictions.jsonl").open("w", encoding="utf-8") as f:
         for ex in tqdm(iter_examples(ds, args.splits, args.max_samples, args.shuffle, args.seed), desc="Evaluating"):
             raw = call_gemini(ex.image, ex.question, args.model_name, args.max_output_tokens)
+            
+            # Debug: afficher les premières réponses
+            if args.debug and debug_count < 5:
+                print(f"\n[DEBUG {debug_count+1}]")
+                print(f"  Question: {ex.question[:100]}...")
+                print(f"  Réponse attendue: {ex.answer}")
+                print(f"  Réponse brute Gemini: {raw[:200]}")
+                debug_count += 1
+            
             pred = _parse_choice(raw)
             pred = pred if pred in CHOICES else None
             correct = (pred == ex.answer)
