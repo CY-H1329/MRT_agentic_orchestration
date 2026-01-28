@@ -77,8 +77,8 @@ def _build_prompt(question: str) -> str:
     # IMPORTANT: On demande la lettre EN PREMIER pour éviter MAX_TOKENS
     return (
         f"{question}\n\n"
-        "Réponds UNIQUEMENT avec une seule lettre: A, B, C, ou D.\n"
-        "Ne mets rien d'autre avant ou après. Juste la lettre."
+        "Answer with ONLY ONE LETTER: A, B, C, or D.\n"
+        "Do not write any explanation. Just the letter."
     )
 
 
@@ -186,6 +186,10 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             max_retries = 3
             for attempt in range(max_retries):
                 try:
+                    # Log pour debug (seulement si debug_response)
+                    if debug_response:
+                        print(f"[DEBUG] Appel API avec max_output_tokens={max_output_tokens}, model={api_model_name}")
+                    
                     response = client.models.generate_content(
                         model=api_model_name,
                         contents=[
@@ -241,11 +245,23 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             def extract_text(resp) -> Optional[str]:
                 """Extrait le texte de la réponse Gemini de manière robuste.
                 Même si finish_reason=MAX_TOKENS, on essaie de récupérer le texte partiel.
+                Ordre de priorité basé sur check_gemini.py qui fonctionne.
                 """
                 if resp is None:
                     return None
                 
-                # 1) response.text (propriété calculée, peut être None même avec MAX_TOKENS)
+                # Méthode 1: response.parts[0].text (le plus fiable d'après check_gemini.py)
+                try:
+                    if hasattr(resp, "parts") and resp.parts and len(resp.parts) > 0:
+                        part = resp.parts[0]
+                        if hasattr(part, "text") and part.text:
+                            text = str(part.text).strip()
+                            if text:  # Même si tronqué, on peut extraire la lettre
+                                return text
+                except (TypeError, AttributeError, IndexError):
+                    pass
+                
+                # Méthode 2: response.text (propriété calculée)
                 try:
                     if hasattr(resp, "text") and resp.text:
                         text = str(resp.text).strip()
@@ -254,19 +270,23 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                 except (AttributeError, TypeError):
                     pass
                 
-                # 2) response.parts[0].text (le plus fiable d'après check_gemini.py)
+                # Méthode 3: candidates[0].content.parts[0].text (parcourir tous les candidates et parts)
+                # IMPORTANT: Même si finish_reason=MAX_TOKENS, le texte partiel peut être présent
                 try:
-                    if hasattr(resp, "parts") and resp.parts and len(resp.parts) > 0:
-                        part = resp.parts[0]
-                        if hasattr(part, "text") and part.text:
-                            text = str(part.text).strip()
-                            if text:
-                                return text
+                    if hasattr(resp, "candidates") and resp.candidates and len(resp.candidates) > 0:
+                        candidate = resp.candidates[0]
+                        if hasattr(candidate, "content") and candidate.content:
+                            content = candidate.content
+                            if hasattr(content, "parts") and content.parts and len(content.parts) > 0:
+                                part = content.parts[0]
+                                if hasattr(part, "text") and part.text:
+                                    text = str(part.text).strip()
+                                    if text:  # Même texte tronqué, on peut extraire la lettre
+                                        return text
                 except (TypeError, AttributeError, IndexError):
                     pass
                 
-                # 3) candidates[0].content.parts (parcourir tous les candidates et parts)
-                # IMPORTANT: Même si finish_reason=MAX_TOKENS, le texte partiel peut être présent
+                # Méthode 4: Parcourir TOUS les candidates et TOUS les parts (dernier recours)
                 try:
                     candidates = getattr(resp, "candidates", None) or []
                     for cand in candidates:
@@ -284,47 +304,52 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                 
                 return None
             
-            # Extraire le texte
+            # Extraire le texte (cette fonction essaie déjà toutes les méthodes)
             text = extract_text(response)
             
             if text:
                 return text
-            else:
-                # Debug: afficher plus d'info pour comprendre pourquoi (finish_reason, etc.)
-                debug_parts = ["ERROR: No text found"]
-                try:
-                    debug_parts.append(f"type={type(response).__name__}")
-                    debug_parts.append(f"has_parts={hasattr(response, 'parts')}")
-                    if hasattr(response, "parts") and response.parts:
-                        debug_parts.append(f"parts_len={len(response.parts)}")
-                        # Essayer d'afficher le contenu des parts même si vide
-                        for i, part in enumerate(response.parts[:2]):  # Limiter à 2 pour éviter trop de logs
-                            part_text = getattr(part, "text", None)
-                            if part_text:
-                                debug_parts.append(f"parts[{i}].text={repr(str(part_text)[:50])}")
-                    debug_parts.append(f"has_candidates={hasattr(response, 'candidates')}")
-                    if hasattr(response, "candidates") and response.candidates and len(response.candidates) > 0:
-                        cand = response.candidates[0]
-                        finish_reason = getattr(cand, "finish_reason", None)
-                        debug_parts.append(f"finish_reason={finish_reason}")
-                        # Si finish_reason est MAX_TOKENS, vérifier si on peut quand même extraire du texte partiel
-                        if finish_reason and "MAX_TOKENS" in str(finish_reason):
-                            debug_parts.append("(MAX_TOKENS - peut-être max_output_tokens trop petit?)")
-                            # Essayer d'extraire le texte partiel des candidates
-                            content = getattr(cand, "content", None)
-                            if content:
-                                parts = getattr(content, "parts", None) or []
-                                for p in parts:
-                                    t = getattr(p, "text", None)
-                                    if t:
-                                        partial_text = str(t).strip()
-                                        if partial_text:
-                                            debug_parts.append(f"TEXTE PARTIEL TROUVÉ: {repr(partial_text[:100])}")
-                                            # Retourner le texte partiel même si tronqué - on peut extraire la lettre
-                                            return partial_text
-                except Exception as e:
-                    debug_parts.append(f"debug_error={str(e)}")
-                return ". ".join(debug_parts)
+            
+            # Si on arrive ici, aucune méthode n'a fonctionné
+            # Essayer une dernière fois avec une extraction plus agressive
+            try:
+                # Vérifier si finish_reason=MAX_TOKENS et essayer d'extraire le texte partiel
+                if hasattr(response, "candidates") and response.candidates and len(response.candidates) > 0:
+                    cand = response.candidates[0]
+                    finish_reason = getattr(cand, "finish_reason", None)
+                    
+                    # Même avec MAX_TOKENS, le texte partiel devrait être dans content.parts
+                    if finish_reason and "MAX_TOKENS" in str(finish_reason):
+                        content = getattr(cand, "content", None)
+                        if content:
+                            parts = getattr(content, "parts", None) or []
+                            for p in parts:
+                                t = getattr(p, "text", None)
+                                if t:
+                                    partial_text = str(t).strip()
+                                    if partial_text:
+                                        # Retourner le texte partiel même si tronqué - on peut extraire la lettre
+                                        return partial_text
+            except Exception:
+                pass
+            
+            # Si vraiment rien n'a fonctionné, retourner un message d'erreur détaillé
+            debug_parts = ["ERROR: No text found"]
+            try:
+                debug_parts.append(f"type={type(response).__name__}")
+                debug_parts.append(f"has_parts={hasattr(response, 'parts')}")
+                if hasattr(response, "parts") and response.parts:
+                    debug_parts.append(f"parts_len={len(response.parts)}")
+                debug_parts.append(f"has_candidates={hasattr(response, 'candidates')}")
+                if hasattr(response, "candidates") and response.candidates and len(response.candidates) > 0:
+                    cand = response.candidates[0]
+                    finish_reason = getattr(cand, "finish_reason", None)
+                    debug_parts.append(f"finish_reason={finish_reason}")
+                    if finish_reason and "MAX_TOKENS" in str(finish_reason):
+                        debug_parts.append("(MAX_TOKENS - texte partiel non trouvé malgré extraction agressive)")
+            except Exception as e:
+                debug_parts.append(f"debug_error={str(e)}")
+            return ". ".join(debug_parts)
         else:
             # Ancienne API (fallback, probablement ne fonctionnera pas)
             genai.configure(api_key=_clean(api_key))
@@ -347,7 +372,7 @@ def main() -> None:
     ap.add_argument("--max_samples", type=int, default=-1)
     ap.add_argument("--shuffle", action="store_true")
     ap.add_argument("--seed", type=int, default=None)
-    ap.add_argument("--max_output_tokens", type=int, default=256, help="Augmenter si finish_reason=MAX_TOKENS (réponse tronquée). Par défaut: 256 (suffisant pour une lettre + explication)")
+    ap.add_argument("--max_output_tokens", type=int, default=512, help="Augmenter si finish_reason=MAX_TOKENS (réponse tronquée). Par défaut: 512 (devrait être suffisant même avec explication)")
     ap.add_argument("--out_dir", default=None)
     ap.add_argument("--debug", action="store_true", help="Afficher les 5 premières réponses brutes pour debug")
     ap.add_argument("--debug_response", action="store_true", help="Afficher la structure complète de la réponse Gemini (très verbeux)")
