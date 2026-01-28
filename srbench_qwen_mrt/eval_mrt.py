@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import random
 import re
 import time
 from dataclasses import dataclass
@@ -94,8 +95,9 @@ def _build_prompt(question: str) -> str:
     )
 
 
-def iter_examples(ds, splits: List[str], max_samples: int) -> Iterable[Example]:
-    kept = 0
+def iter_examples(ds, splits: List[str], max_samples: int, shuffle: bool = False, seed: Optional[int] = None) -> Iterable[Example]:
+    # Collect all matching examples first
+    examples = []
     for i, row in enumerate(ds):
         sp = row.get("split")
         if sp not in splits:
@@ -114,9 +116,21 @@ def iter_examples(ds, splits: List[str], max_samples: int) -> Iterable[Example]:
             answer=str(row.get("answer")).strip().upper(),
             image=pil_img.convert("RGB"),
         )
+        examples.append(ex)
+
+    # Shuffle if requested
+    if shuffle:
+        if seed is not None:
+            random.seed(seed)
+            np.random.seed(seed)
+        random.shuffle(examples)
+
+    # Yield examples (with limit)
+    count = 0
+    for ex in examples:
         yield ex
-        kept += 1
-        if max_samples != -1 and kept >= max_samples:
+        count += 1
+        if max_samples != -1 and count >= max_samples:
             return
 
 
@@ -336,6 +350,8 @@ def main() -> None:
     ap.add_argument("--device", default="auto", choices=["auto", "cuda", "cpu"])
     ap.add_argument("--dtype", default="bfloat16", choices=["float16", "bfloat16", "float32"])
     ap.add_argument("--out_dir", default=None)
+    ap.add_argument("--shuffle", action="store_true", help="Shuffle dataset before evaluation")
+    ap.add_argument("--seed", type=int, default=None, help="Random seed for shuffling (for reproducibility)")
     args = ap.parse_args()
 
     if args.out_dir is None:
@@ -351,10 +367,12 @@ def main() -> None:
     model, processor, tokenizer = load_qwen_vl(args.model_name, args.device, args.dtype)
 
     rows: List[Dict[str, Any]] = []
+    detailed_results: List[Dict[str, Any]] = []
     pred_path = out_dir / "predictions.jsonl"
+    detailed_path = out_dir / "detailed_results.json"
 
     with pred_path.open("w", encoding="utf-8") as f:
-        for ex in tqdm(iter_examples(ds, args.splits, args.max_samples), desc="Evaluating"):
+        for ex in tqdm(iter_examples(ds, args.splits, args.max_samples, args.shuffle, args.seed), desc="Evaluating"):
             raw = predict_one(
                 model=model,
                 processor=processor,
@@ -367,6 +385,7 @@ def main() -> None:
             pred = pred if pred in CHOICES else None
             correct = (pred == ex.answer)
 
+            # Basic row for jsonl (backward compatible)
             row = {
                 "idx": ex.idx,
                 "split": ex.split,
@@ -378,6 +397,34 @@ def main() -> None:
             rows.append(row)
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
+            # Detailed result with question text
+            detailed_row = {
+                "idx": ex.idx,
+                "split": ex.split,
+                "question": ex.question,
+                "ground_truth": ex.answer,
+                "model_prediction": pred,
+                "model_raw_output": raw,
+                "correct": bool(correct),
+                "image_size": list(ex.image.size),
+                "image_mode": ex.image.mode,
+            }
+            detailed_results.append(detailed_row)
+
+    # Save detailed results as JSON
+    detailed_output = {
+        "model_name": args.model_name,
+        "dataset_name": args.dataset_name,
+        "dataset_split": args.dataset_split,
+        "splits": args.splits,
+        "max_samples": args.max_samples,
+        "shuffle": args.shuffle,
+        "seed": args.seed,
+        "total_examples": len(detailed_results),
+        "results": detailed_results,
+    }
+    detailed_path.write_text(json.dumps(detailed_output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
     metrics = compute_metrics(rows)
     metrics.update(
         {
@@ -386,6 +433,8 @@ def main() -> None:
             "dataset_split": args.dataset_split,
             "splits": args.splits,
             "max_samples": args.max_samples,
+            "shuffle": args.shuffle,
+            "seed": args.seed,
         }
     )
 

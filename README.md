@@ -103,14 +103,27 @@ python -m srbench_qwen_mrt.eval_mrt \
   --model_name Qwen/Qwen2.5-VL-7B-Instruct \
   --splits mrt_easy mrt_hard \
   --max_samples -1 \
-  --batch_size 1 \
   --out_dir runs/qwen2.5-vl-7b
 ```
 
-Le script écrit:
+### Options utiles
 
-- `runs/.../predictions.jsonl`
-- `runs/.../metrics.json`
+**Avec shuffle (pour éviter l'ordre fixe):**
+```bash
+python -m srbench_qwen_mrt.eval_mrt \
+  --model_name Qwen/Qwen2.5-VL-7B-Instruct \
+  --splits mrt_easy mrt_hard \
+  --max_samples -1 \
+  --shuffle \
+  --seed 42 \
+  --out_dir runs/qwen2.5-vl-7b-shuffled
+```
+
+**Fichiers de sortie:**
+
+- `runs/.../predictions.jsonl`: Résultats compacts (format JSONL, un par ligne)
+- `runs/.../detailed_results.json`: **Résultats détaillés avec questions, réponses, comparaisons** (format JSON structuré)
+- `runs/.../metrics.json`: Métriques globales (accuracy par split)
 
 ## Exécution via GitHub Actions sur H100 (runner self-hosted)
 
