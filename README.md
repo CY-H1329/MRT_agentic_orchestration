@@ -12,11 +12,30 @@ Le script interroge le modèle et **force une sortie parmi {A,B,C,D}**, puis cal
 
 ## Installation (H100 / Linux recommandé)
 
+### Option 1: Script automatique (recommandé)
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+chmod +x install_qwen.sh
+./install_qwen.sh
+```
+
+Le script:
+- Installe les dépendances de base
+- Détecte si `transformers` nécessite une mise à jour depuis GitHub
+- Installe `qwen-vl-utils` si nécessaire
+
+### Option 2: Installation manuelle
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -U pip
 pip install -r requirements.txt
+
+# Si Qwen2_5_VLForConditionalGeneration n'est pas disponible:
+pip install -U "git+https://github.com/huggingface/transformers.git" accelerate
 ```
 
 ### Accès Hugging Face
@@ -41,6 +60,36 @@ Cela affiche:
 - Le nombre total d'exemples dans le split `test`
 - La répartition par split
 - Quelques exemples avec leurs images/questions/réponses
+
+## Vérifier l'installation Qwen2.5-VL
+
+Avant de lancer l'évaluation complète, vérifiez que Qwen est correctement installé:
+
+```bash
+python -m srbench_qwen_mrt.check_qwen \
+  --model_name Qwen/Qwen2.5-VL-7B-Instruct
+```
+
+Ce script vérifie:
+- ✅ Version de `transformers` (peut nécessiter la version GitHub pour Qwen2.5-VL)
+- ✅ Installation de `qwen-vl-utils`
+- ✅ Chargement du modèle et disponibilité de `.generate()`
+- ✅ Test de génération avec une image factice
+
+### Si le check échoue
+
+**Erreur "Qwen2_5_VLForConditionalGeneration not found":**
+```bash
+pip install -U "git+https://github.com/huggingface/transformers.git" accelerate
+```
+
+**Erreur "qwen-vl-utils not found":**
+```bash
+pip install qwen-vl-utils
+```
+
+**Erreur "Image features and image tokens do not match":**
+→ Le script `eval_mrt.py` utilise déjà le chat template correct. Si ça persiste, vérifiez que `qwen-vl-utils` est bien installé.
 
 ## Lancer l’évaluation
 
