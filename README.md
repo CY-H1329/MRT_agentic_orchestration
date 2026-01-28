@@ -83,8 +83,11 @@ Ce script vérifie:
 pip install -U "git+https://github.com/huggingface/transformers.git" accelerate
 ```
 
-**Erreur "qwen-vl-utils not found":**
+**Erreur "qwen-vl-utils not found" ou "No module named 'torchvision'":**
 ```bash
+pip install qwen-vl-utils torchvision
+# ou si vous utilisez conda:
+conda install torchvision
 pip install qwen-vl-utils
 ```
 

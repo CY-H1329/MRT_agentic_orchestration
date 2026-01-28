@@ -38,6 +38,15 @@ def main() -> None:
         print("✅ qwen-vl-utils: installé")
     except ImportError as e:
         import_err = e
+        # Vérifier si c'est torchvision qui manque (erreur courante)
+        if "torchvision" in str(e).lower():
+            print("❌ qwen-vl-utils nécessite torchvision (dépendance manquante)")
+            print(f"   Erreur: {e}")
+            print("\n   Solution:")
+            print("   pip install torchvision")
+            print("   (ou si vous utilisez conda: conda install torchvision)")
+            sys.exit(1)
+        
         # Essayer aussi l'import alternatif
         try:
             import qwen_vl_utils  # type: ignore

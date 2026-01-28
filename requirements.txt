@@ -9,8 +9,10 @@ accelerate>=0.30.0
 datasets>=2.18.0
 
 # Utilitaire officiel Qwen pour préparer les entrées vision (image/video placeholders)
+# NOTE: qwen-vl-utils nécessite torchvision (dépendance non déclarée)
 qwen-vl-utils>=0.0.8
 
-# Laissez torch être géré côté serveur CUDA si besoin (pip/conda).
-# Si vous voulez pip ici, décommentez la ligne ci-dessous et installez la wheel CUDA appropriée.
+# Laissez torch/torchvision être géré côté serveur CUDA si besoin (pip/conda).
+# Si vous voulez pip ici, décommentez les lignes ci-dessous avec la wheel CUDA appropriée.
 # torch
+# torchvision
