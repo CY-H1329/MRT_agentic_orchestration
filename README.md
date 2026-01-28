@@ -27,6 +27,21 @@ Si le modèle est gated / nécessite un token:
 export HF_TOKEN="..."
 ```
 
+## Vérifier le dataset (avant de lancer le modèle)
+
+Pour s'assurer que le dataset se charge correctement:
+
+```bash
+python -m srbench_qwen_mrt.check_dataset \
+  --splits mrt_easy mrt_hard \
+  --max_samples 10
+```
+
+Cela affiche:
+- Le nombre total d'exemples dans le split `test`
+- La répartition par split
+- Quelques exemples avec leurs images/questions/réponses
+
 ## Lancer l’évaluation
 
 Exemple (7B par défaut):
