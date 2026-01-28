@@ -77,12 +77,11 @@ def _parse_choice(text: str) -> Optional[str]:
 
 
 def _build_prompt(question: str) -> str:
-    # Prompt très strict pour forcer une réponse d'une seule lettre
-    # IMPORTANT: On demande la lettre EN PREMIER pour éviter MAX_TOKENS
-    # Utiliser un format très direct pour minimiser les tokens générés
+    # Prompt ultra-strict pour forcer EXACTEMENT une seule lettre
+    # Format minimal pour éviter MAX_TOKENS
     return (
         f"{question}\n\n"
-        "Answer: A, B, C, or D. One letter only."
+        "Answer with exactly ONE character: A, B, or C. Do not add anything else."
     )
 
 
@@ -190,10 +189,6 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
             max_retries = 3
             for attempt in range(max_retries):
                 try:
-                    # Log pour debug (seulement si debug_response)
-                    if debug_response:
-                        print(f"[DEBUG] Appel API avec max_output_tokens={max_output_tokens}, model={api_model_name}")
-                    
                     # Utiliser types.GenerateContentConfig() au lieu d'un dict simple
                     # C'est le format correct pour l'API google.genai
                     try:
@@ -205,6 +200,11 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                     except ImportError:
                         # Fallback vers dict si types n'est pas disponible
                         config = {"max_output_tokens": max_output_tokens, "temperature": 0.0}
+                    
+                    # Log pour vérifier que max_output_tokens est bien passé
+                    if debug_response:
+                        print(f"[DEBUG] Appel API avec max_output_tokens={max_output_tokens}, model={api_model_name}")
+                        print(f"[DEBUG] Config type: {type(config)}, max_output_tokens dans config: {getattr(config, 'max_output_tokens', config.get('max_output_tokens', 'N/A'))}")
                     
                     response = client.models.generate_content(
                         model=api_model_name,
@@ -429,7 +429,7 @@ def main() -> None:
     ap.add_argument("--max_samples", type=int, default=-1)
     ap.add_argument("--shuffle", action="store_true")
     ap.add_argument("--seed", type=int, default=None)
-    ap.add_argument("--max_output_tokens", type=int, default=1024, help="Augmenter si finish_reason=MAX_TOKENS (réponse tronquée). Par défaut: 1024 (pour éviter MAX_TOKENS même si Gemini génère des explications)")
+    ap.add_argument("--max_output_tokens", type=int, default=8, help="Tokens max pour la réponse. Par défaut: 8 (suffisant pour une lettre). Augmenter seulement si nécessaire.")
     ap.add_argument("--out_dir", default=None)
     ap.add_argument("--debug", action="store_true", help="Afficher les 5 premières réponses brutes pour debug")
     ap.add_argument("--debug_response", action="store_true", help="Afficher la structure complète de la réponse Gemini (très verbeux)")
@@ -476,9 +476,18 @@ def main() -> None:
                 print(f"  Prédiction parsée: {pred}")
                 print(f"  Correct: {correct}")
                 
-                # Si verbose et que raw contient "ERROR", afficher plus de détails
-                if args.verbose and "ERROR" in raw:
+                # Afficher le mapping des options depuis la question
+                if "Available options:" in ex.question:
+                    import re
+                    options_match = re.search(r"Available options: (.+)", ex.question)
+                    if options_match:
+                        options_text = options_match.group(1)
+                        print(f"  Options dans question: {options_text[:100]}")
+                
+                # Si verbose et que raw contient "ERROR" ou "MAX_TOKENS", afficher plus de détails
+                if args.verbose and ("ERROR" in raw or "MAX_TOKENS" in raw):
                     print(f"  ⚠️  Erreur détectée - vérifier la réponse Gemini")
+                    print(f"  max_output_tokens utilisé: {args.max_output_tokens}")
 
             row = {"idx": ex.idx, "split": ex.split, "answer": ex.answer, "pred": pred, "correct": bool(correct), "raw": raw}
             rows.append(row)
