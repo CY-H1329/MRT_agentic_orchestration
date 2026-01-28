@@ -17,6 +17,8 @@ _RE_ORIG_MONO = re.compile(r"^polycube_(\d+)_original_mono\.png$")
 _RE_ANGLE_MONO = re.compile(r"^polycube_(\d+)_angle(\d+)_mono\.png$")
 _RE_ORIG_DEPTH = re.compile(r"^polycube_(\d+)_original_depth\.png$")
 _RE_ANGLE_DEPTH = re.compile(r"^polycube_(\d+)_angle(\d+)_depth\.png$")
+_RE_ORIG_COLOR = re.compile(r"^polycube_(\d+)_original_color\.png$")
+_RE_ANGLE_COLOR = re.compile(r"^polycube_(\d+)_angle(\d+)_color\.png$")
 
 
 @dataclass
@@ -26,6 +28,8 @@ class PolycubeGroup:
     angle_mono: Dict[int, Path]  # angle -> path
     original_depth: Optional[Path] = None
     angle_depth: Optional[Dict[int, Path]] = None  # angle -> path
+    original_color: Optional[Path] = None
+    angle_color: Optional[Dict[int, Path]] = None  # angle -> path
 
 
 def _load_groups(data_dir: Path) -> Dict[str, PolycubeGroup]:
@@ -40,7 +44,15 @@ def _load_groups(data_dir: Path) -> Dict[str, PolycubeGroup]:
             pid = m.group(1)
             g = groups.get(pid)
             if g is None:
-                g = PolycubeGroup(poly_id=pid, original_mono=p, angle_mono={}, original_depth=None, angle_depth={})
+                g = PolycubeGroup(
+                    poly_id=pid,
+                    original_mono=p,
+                    angle_mono={},
+                    original_depth=None,
+                    angle_depth={},
+                    original_color=None,
+                    angle_color={},
+                )
                 groups[pid] = g
             else:
                 g.original_mono = p
@@ -59,6 +71,8 @@ def _load_groups(data_dir: Path) -> Dict[str, PolycubeGroup]:
                     angle_mono={},
                     original_depth=None,
                     angle_depth={},
+                    original_color=None,
+                    angle_color={},
                 )
                 groups[pid] = g
             g.angle_mono[ang] = p
@@ -75,6 +89,8 @@ def _load_groups(data_dir: Path) -> Dict[str, PolycubeGroup]:
                     angle_mono={},
                     original_depth=p,
                     angle_depth={},
+                    original_color=None,
+                    angle_color={},
                 )
                 groups[pid] = g
             else:
@@ -95,11 +111,55 @@ def _load_groups(data_dir: Path) -> Dict[str, PolycubeGroup]:
                     angle_mono={},
                     original_depth=None,
                     angle_depth={},
+                    original_color=None,
+                    angle_color={},
                 )
                 groups[pid] = g
             if g.angle_depth is None:
                 g.angle_depth = {}
             g.angle_depth[ang] = p
+            continue
+
+        m = _RE_ORIG_COLOR.match(name)
+        if m:
+            pid = m.group(1)
+            g = groups.get(pid)
+            if g is None:
+                g = PolycubeGroup(
+                    poly_id=pid,
+                    original_mono=data_dir / f"polycube_{pid}_original_mono.png",
+                    angle_mono={},
+                    original_depth=None,
+                    angle_depth={},
+                    original_color=p,
+                    angle_color={},
+                )
+                groups[pid] = g
+            else:
+                g.original_color = p
+                if g.angle_color is None:
+                    g.angle_color = {}
+            continue
+
+        m = _RE_ANGLE_COLOR.match(name)
+        if m:
+            pid = m.group(1)
+            ang = int(m.group(2))
+            g = groups.get(pid)
+            if g is None:
+                g = PolycubeGroup(
+                    poly_id=pid,
+                    original_mono=data_dir / f"polycube_{pid}_original_mono.png",
+                    angle_mono={},
+                    original_depth=None,
+                    angle_depth={},
+                    original_color=None,
+                    angle_color={},
+                )
+                groups[pid] = g
+            if g.angle_color is None:
+                g.angle_color = {}
+            g.angle_color[ang] = p
             continue
 
     # filter valid groups
@@ -160,7 +220,7 @@ def _make_composite(
     bg.save(out_path, format="PNG")
 
 
-def _question_text(include_depth: bool) -> str:
+def _question_text(include_depth: bool, include_color: bool) -> str:
     return (
         "This image shows a 3D polycube shape.\n"
         "The QUERY view is at the top-center (marked 'Q').\n"
@@ -173,6 +233,14 @@ def _question_text(include_depth: bool) -> str:
             "- Depth-A, Depth-B, Depth-C (options)\n"
             "Use them to decide the correct rotation match."
             if include_depth
+            else ""
+        )
+        + (
+            "\nAdditional inputs are provided as separate COLOR images:\n"
+            "- Color-QUERY (original)\n"
+            "- Color-A, Color-B, Color-C (options)\n"
+            "Use them to decide the correct rotation match."
+            if include_color
             else ""
         )
     )
@@ -188,6 +256,7 @@ def main() -> None:
     ap.add_argument("--tile_size", type=int, default=256, help="Taille (px) d'un tile dans l'image composite.")
     ap.add_argument("--angles", nargs="*", type=int, default=None, help="Sous-ensemble d'angles autorisés (ex: 1 2). Par défaut: tous angles trouvés.")
     ap.add_argument("--include_depth", action="store_true", help="Inclure les chemins depth (query+options) dans dataset.jsonl (pour multi-image input).")
+    ap.add_argument("--include_color", action="store_true", help="Inclure les chemins color (query+options) dans dataset.jsonl (pour multi-image input).")
     args = ap.parse_args()
 
     data_dir = Path(args.data_dir).expanduser().resolve()
@@ -222,6 +291,11 @@ def main() -> None:
             return None
         return g.angle_depth.get(ang)
 
+    def pick_angle_color(g: PolycubeGroup, ang: int) -> Optional[Path]:
+        if g.angle_color is None:
+            return None
+        return g.angle_color.get(ang)
+
     with jsonl_path.open("w", encoding="utf-8") as f:
         pbar = tqdm(total=total_target, desc="Generating MRT examples")
         while True:
@@ -240,17 +314,25 @@ def main() -> None:
             # correct option: rotated view of SAME polycube
             ang, correct_path = pick_angle(g)
             correct_depth_path = pick_angle_depth(g, ang) if args.include_depth else None
+            correct_color_path = pick_angle_color(g, ang) if args.include_color else None
 
             # distractors: 2 different polycubes (original_mono)
             distract_ids = rng.sample([x for x in all_ids if x != pid], k=2)
             distract_paths = [groups[x].original_mono for x in distract_ids]
             distract_depth_paths = [groups[x].original_depth for x in distract_ids] if args.include_depth else [None, None]
+            distract_color_paths = [groups[x].original_color for x in distract_ids] if args.include_color else [None, None]
 
             # if depth required, ensure we have query depth + correct depth + distractor depths
             if args.include_depth:
                 if g.original_depth is None or correct_depth_path is None:
                     continue
                 if any(d is None for d in distract_depth_paths):
+                    continue
+
+            if args.include_color:
+                if g.original_color is None or correct_color_path is None:
+                    continue
+                if any(c is None for c in distract_color_paths):
                     continue
 
             # options order
@@ -270,6 +352,15 @@ def main() -> None:
                 # reorder pairs to match option_paths
                 depth_by_img = {str(img_p): depth_p for (img_p, depth_p) in all_opt_pairs}
                 option_depth_paths = [Path(depth_by_img[str(p)]) for p in option_paths]  # type: ignore[index]
+
+            option_color_paths: Optional[List[Path]] = None
+            if args.include_color:
+                all_opt_pairs_c: List[Tuple[Path, Path]] = []
+                all_opt_pairs_c.append((correct_path, correct_color_path))  # type: ignore[arg-type]
+                all_opt_pairs_c.append((distract_paths[0], distract_color_paths[0]))  # type: ignore[arg-type]
+                all_opt_pairs_c.append((distract_paths[1], distract_color_paths[1]))  # type: ignore[arg-type]
+                color_by_img = {str(img_p): color_p for (img_p, color_p) in all_opt_pairs_c}
+                option_color_paths = [Path(color_by_img[str(p)]) for p in option_paths]  # type: ignore[index]
 
             # composite image
             ex_id = f"{split}_pid{pid}_ang{ang}_seed{args.seed}_{counts[split]:04d}"
@@ -293,10 +384,21 @@ def main() -> None:
                     },
                 }
 
+            color_payload: Optional[Dict[str, Any]] = None
+            if args.include_color and option_color_paths is not None:
+                color_payload = {
+                    "query_color": str(g.original_color),
+                    "options_color": {
+                        "A": str(option_color_paths[0]),
+                        "B": str(option_color_paths[1]),
+                        "C": str(option_color_paths[2]),
+                    },
+                }
+
             row = {
                 "id": ex_id,
                 "split": split,
-                "question": _question_text(include_depth=args.include_depth),
+                "question": _question_text(include_depth=args.include_depth, include_color=args.include_color),
                 "answer": answer,
                 "image": str(composite_path),
                 "meta": {
@@ -311,6 +413,7 @@ def main() -> None:
                     },
                     "distractor_ids": distract_ids,
                     **({"depth": depth_payload} if depth_payload is not None else {}),
+                    **({"color": color_payload} if color_payload is not None else {}),
                 },
             }
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
@@ -329,7 +432,8 @@ def main() -> None:
         "counts": counts,
         "total": sum(counts.values()),
         "include_depth": bool(args.include_depth),
-        "note": "Each example is a composite image: top-center query (Q), bottom row options A/B/C. If include_depth, meta.depth contains query/options depth paths.",
+        "include_color": bool(args.include_color),
+        "note": "Each example is a composite image: top-center query (Q), bottom row options A/B/C. If include_depth/meta.depth or include_color/meta.color, extra paths are included for multi-image input.",
     }
     meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(meta, ensure_ascii=False, indent=2))

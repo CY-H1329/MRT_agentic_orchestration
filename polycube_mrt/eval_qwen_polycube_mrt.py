@@ -28,6 +28,8 @@ class Example:
     image_path: Path
     depth_query_path: Optional[Path] = None
     depth_options: Optional[Dict[str, Path]] = None
+    color_query_path: Optional[Path] = None
+    color_options: Optional[Dict[str, Path]] = None
 
 
 def _iter_jsonl(path: Path) -> Iterable[Dict[str, Any]]:
@@ -49,6 +51,8 @@ def iter_examples(jsonl_path: Path, splits: List[str], max_samples: int, shuffle
     for i, r in enumerate(rows):
         depth_query = None
         depth_opts = None
+        color_query = None
+        color_opts = None
         meta = r.get("meta") or {}
         depth_meta = meta.get("depth") if isinstance(meta, dict) else None
         if isinstance(depth_meta, dict):
@@ -64,6 +68,20 @@ def iter_examples(jsonl_path: Path, splits: List[str], max_samples: int, shuffle
                 if len(tmp) == 3:
                     depth_opts = tmp
 
+        color_meta = meta.get("color") if isinstance(meta, dict) else None
+        if isinstance(color_meta, dict):
+            qc = color_meta.get("query_color")
+            oc = color_meta.get("options_color")
+            if isinstance(qc, str):
+                color_query = Path(qc)
+            if isinstance(oc, dict):
+                tmpc: Dict[str, Path] = {}
+                for k in ["A", "B", "C"]:
+                    if isinstance(oc.get(k), str):
+                        tmpc[k] = Path(oc[k])
+                if len(tmpc) == 3:
+                    color_opts = tmpc
+
         ex = Example(
             idx=i,
             split=str(r["split"]),
@@ -72,6 +90,8 @@ def iter_examples(jsonl_path: Path, splits: List[str], max_samples: int, shuffle
             image_path=Path(r["image"]),
             depth_query_path=depth_query,
             depth_options=depth_opts,
+            color_query_path=color_query,
+            color_options=color_opts,
         )
         yield ex
         count += 1
@@ -103,6 +123,7 @@ def main() -> None:
     ap.add_argument("--shuffle", action="store_true")
     ap.add_argument("--seed", type=int, default=None)
     ap.add_argument("--use_depth_inputs", action="store_true", help="Si dataset contient meta.depth, ajouter query/options depth comme images supplémentaires au modèle.")
+    ap.add_argument("--use_color_inputs", action="store_true", help="Si dataset contient meta.color, ajouter query/options color comme images supplémentaires au modèle.")
     args = ap.parse_args()
 
     data_jsonl = Path(args.data_jsonl).expanduser()
@@ -130,18 +151,24 @@ def main() -> None:
             # Load main composite (mono)
             img_main = Image.open(ex.image_path).convert("RGB")
 
-            # Multi-image input (optional): composite + depth_query + depth_A/B/C
+            # Multi-image input (optional): composite + color and/or depth
             images: List[Image.Image] = [img_main]
-            if args.use_depth_inputs:
-                if ex.depth_query_path is None or ex.depth_options is None:
-                    # dataset not generated with --include_depth
-                    pass
-                else:
-                    # order is important and described in prompt
-                    images.append(Image.open(ex.depth_query_path).convert("RGB"))
-                    images.append(Image.open(ex.depth_options["A"]).convert("RGB"))
-                    images.append(Image.open(ex.depth_options["B"]).convert("RGB"))
-                    images.append(Image.open(ex.depth_options["C"]).convert("RGB"))
+            used_depth = False
+            used_color = False
+
+            if args.use_color_inputs and ex.color_query_path is not None and ex.color_options is not None:
+                images.append(Image.open(ex.color_query_path).convert("RGB"))
+                images.append(Image.open(ex.color_options["A"]).convert("RGB"))
+                images.append(Image.open(ex.color_options["B"]).convert("RGB"))
+                images.append(Image.open(ex.color_options["C"]).convert("RGB"))
+                used_color = True
+
+            if args.use_depth_inputs and ex.depth_query_path is not None and ex.depth_options is not None:
+                images.append(Image.open(ex.depth_query_path).convert("RGB"))
+                images.append(Image.open(ex.depth_options["A"]).convert("RGB"))
+                images.append(Image.open(ex.depth_options["B"]).convert("RGB"))
+                images.append(Image.open(ex.depth_options["C"]).convert("RGB"))
+                used_depth = True
 
             raw = predict_one_multi(
                 model=model,
@@ -150,7 +177,8 @@ def main() -> None:
                 images=images,
                 question=ex.question,
                 max_new_tokens=args.max_new_tokens,
-                use_depth=args.use_depth_inputs and len(images) == 5,
+                use_depth=used_depth,
+                use_color=used_color,
             )
             pred = _parse_choice(raw)
             pred = pred if pred in CHOICES else None
@@ -180,8 +208,10 @@ def main() -> None:
                     "image_path": str(ex.image_path),
                     "image_size": list(img_main.size),
                     "use_depth_inputs": bool(args.use_depth_inputs),
+                    "use_color_inputs": bool(args.use_color_inputs),
                     "n_images": len(images),
                     "depth_query_path": str(ex.depth_query_path) if ex.depth_query_path else None,
+                    "color_query_path": str(ex.color_query_path) if ex.color_query_path else None,
                 }
             )
 
@@ -212,23 +242,30 @@ def main() -> None:
     print(json.dumps(metrics, ensure_ascii=False, indent=2))
 
 
-def _build_prompt_polycube(question: str, use_depth: bool) -> str:
-    if not use_depth:
+def _build_prompt_polycube(question: str, use_depth: bool, use_color: bool) -> str:
+    if not use_depth and not use_color:
         return (
             f"{question}\n\n"
             "Réponds avec UNE SEULE LETTRE parmi {A,B,C}.\n"
             "N'ajoute aucun autre texte."
         )
-    return (
-        f"{question}\n\n"
-        "You are given 5 images in order:\n"
-        "1) Composite mono (Q at top-center, options A/B/C on bottom row)\n"
-        "2) Depth-QUERY (original)\n"
-        "3) Depth-A\n"
-        "4) Depth-B\n"
-        "5) Depth-C\n\n"
-        "Answer with EXACTLY ONE LETTER: A, B, or C. No other text."
-    )
+    lines = [f"{question}", "", "You are given images in order:"]
+    idx = 1
+    lines.append(f"{idx}) Composite mono (Q at top-center, options A/B/C on bottom row)")
+    idx += 1
+    if use_color:
+        lines.append(f"{idx}) Color-QUERY (original)"); idx += 1
+        lines.append(f"{idx}) Color-A"); idx += 1
+        lines.append(f"{idx}) Color-B"); idx += 1
+        lines.append(f"{idx}) Color-C"); idx += 1
+    if use_depth:
+        lines.append(f"{idx}) Depth-QUERY (original)"); idx += 1
+        lines.append(f"{idx}) Depth-A"); idx += 1
+        lines.append(f"{idx}) Depth-B"); idx += 1
+        lines.append(f"{idx}) Depth-C"); idx += 1
+    lines.append("")
+    lines.append("Answer with EXACTLY ONE LETTER: A, B, or C. No other text.")
+    return "\n".join(lines)
 
 
 def predict_one_multi(
@@ -239,6 +276,7 @@ def predict_one_multi(
     question: str,
     max_new_tokens: int,
     use_depth: bool,
+    use_color: bool,
 ) -> str:
     """
     Qwen2.5-VL multi-image generation wrapper (composite + optional depth images).
@@ -246,7 +284,7 @@ def predict_one_multi(
     """
     import torch
 
-    prompt = _build_prompt_polycube(question, use_depth=use_depth)
+    prompt = _build_prompt_polycube(question, use_depth=use_depth, use_color=use_color)
 
     if hasattr(processor, "apply_chat_template"):
         from qwen_vl_utils import process_vision_info  # type: ignore
