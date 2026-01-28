@@ -129,23 +129,71 @@ def load_qwen_vl(model_name: str, device: str, dtype: str):
     - We keep it flexible: model class is obtained from AutoModelForVision2Seq
       if available; otherwise fall back to AutoModel.
     """
+    torch_dtype = getattr(torch, dtype)
+
+    # IMPORTANT: for generation we need the *conditional generation* class.
+    # With some transformers versions, AutoModel* may return a base model without `.generate`.
+    model = None
+    last_err: Optional[Exception] = None
+
+    # Best path (per Qwen model card)
     try:
-        from transformers import AutoModelForVision2Seq  # type: ignore
+        from transformers import Qwen2_5_VLForConditionalGeneration  # type: ignore
 
-        model = AutoModelForVision2Seq.from_pretrained(
-            model_name,
-            torch_dtype=getattr(torch, dtype),
-            device_map="auto" if device == "auto" else None,
-            trust_remote_code=True,
-        )
-    except Exception:
-        from transformers import AutoModel  # type: ignore
+        try:
+            model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
+                model_name,
+                dtype=torch_dtype,  # transformers>=5 uses dtype
+                device_map="auto" if device == "auto" else None,
+                trust_remote_code=True,
+            )
+        except TypeError:
+            model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
+                model_name,
+                torch_dtype=torch_dtype,  # transformers<=4 uses torch_dtype
+                device_map="auto" if device == "auto" else None,
+                trust_remote_code=True,
+            )
+    except Exception as e:
+        last_err = e
 
-        model = AutoModel.from_pretrained(
-            model_name,
-            torch_dtype=getattr(torch, dtype),
-            device_map="auto" if device == "auto" else None,
-            trust_remote_code=True,
+    # Fallbacks
+    if model is None:
+        try:
+            from transformers import AutoModelForVision2Seq  # type: ignore
+
+            model = AutoModelForVision2Seq.from_pretrained(
+                model_name,
+                torch_dtype=torch_dtype,
+                device_map="auto" if device == "auto" else None,
+                trust_remote_code=True,
+            )
+        except Exception as e:
+            last_err = e
+
+    if model is None:
+        try:
+            from transformers import AutoModelForCausalLM  # type: ignore
+
+            model = AutoModelForCausalLM.from_pretrained(
+                model_name,
+                torch_dtype=torch_dtype,
+                device_map="auto" if device == "auto" else None,
+                trust_remote_code=True,
+            )
+        except Exception as e:
+            last_err = e
+
+    if model is None:
+        raise RuntimeError(f"Impossible de charger le modèle: {model_name}. Dernière erreur: {last_err}")
+
+    # Validate generation availability early with a clear error
+    if not hasattr(model, "generate"):
+        raise RuntimeError(
+            "Le modèle chargé n'expose pas `.generate()` (probablement une classe base). "
+            "Pour Qwen2.5-VL, installez transformers depuis la branche main:\n"
+            "  pip install -U 'git+https://github.com/huggingface/transformers.git' accelerate\n"
+            "Puis relancez."
         )
 
     tokenizer = None
@@ -212,11 +260,19 @@ def predict_one(
     out_ids = model.generate(**inputs, **generate_kwargs)
 
     if tokenizer is not None:
-        text = tokenizer.decode(out_ids[0], skip_special_tokens=True)
+        # Qwen examples trim the prompt tokens
+        try:
+            in_len = int(inputs["input_ids"].shape[-1]) if "input_ids" in inputs else 0
+            gen_ids = out_ids[0][in_len:] if in_len > 0 else out_ids[0]
+            text = tokenizer.decode(gen_ids, skip_special_tokens=True)
+        except Exception:
+            text = tokenizer.decode(out_ids[0], skip_special_tokens=True)
     else:
         # AutoProcessor may include decode()
         try:
-            text = processor.decode(out_ids[0], skip_special_tokens=True)
+            in_len = int(inputs["input_ids"].shape[-1]) if "input_ids" in inputs else 0
+            gen_ids = out_ids[0][in_len:] if in_len > 0 else out_ids[0]
+            text = processor.decode(gen_ids, skip_special_tokens=True)
         except Exception:
             text = str(out_ids)
 
