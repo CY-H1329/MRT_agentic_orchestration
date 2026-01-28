@@ -115,121 +115,79 @@ def compute_metrics(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
     }
 
 
-def _normalize_model_name(model_name: str) -> str:
-    """Normalise le nom du modèle pour l'API Google Generative AI."""
-    # Mapping des noms communs vers les noms corrects de l'API
-    mapping = {
-        "gemini-1.5-flash": "gemini-1.5-flash",
-        "gemini-1.5-pro": "gemini-1.5-pro",
-        "gemini-pro": "gemini-pro",
-        "gemini-2.0-flash-exp": "gemini-2.0-flash-exp",
-    }
-    # Si le nom contient déjà "models/", on le garde tel quel
-    if model_name.startswith("models/"):
-        return model_name
-    # Sinon, on essaie le mapping ou on ajoute "models/" si nécessaire
-    normalized = mapping.get(model_name, model_name)
-    if not normalized.startswith("models/"):
-        normalized = f"models/{normalized}"
-    return normalized
-
-
 def call_gemini(image: Image.Image, question: str, model_name: str, max_output_tokens: int) -> str:
-    # NOTE: google.generativeai est déprécié mais fonctionne encore.
-    # Migrer vers google.genai quand disponible.
-    import google.generativeai as genai
+    # Utiliser la nouvelle API google.genai (l'ancienne google.generativeai ne fonctionne plus)
+    try:
+        import google.genai as genai
+        use_new_api = True
+    except ImportError:
+        # Fallback vers l'ancienne API si google.genai n'est pas installé
+        import google.generativeai as genai
+        use_new_api = False
 
     api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
     if not api_key:
         raise RuntimeError("GOOGLE_API_KEY ou GEMINI_API_KEY manquant. Ex: export GOOGLE_API_KEY='...'.")
 
-    # Nettoyer la clé API (comme pour OpenAI)
+    # Nettoyer la clé API
     def _clean(s: str) -> str:
         return s.strip().replace("\u2028", "").replace("\u2029", "").replace("\r", "").replace("\n", "")
 
-    genai.configure(api_key=_clean(api_key))
     prompt = _build_prompt(question)
 
-    # L'ancienne API google.generativeai utilise des noms simples sans préfixe "models/"
-    # Mapping vers les noms corrects
-    clean_name = model_name.replace("models/", "").strip()
-    
-    # Noms corrects pour l'ancienne API
-    model_map = {
-        "gemini-1.5-flash": "gemini-1.5-flash",
-        "gemini-1.5-flash-latest": "gemini-1.5-flash",
-        "gemini-1.5-pro": "gemini-1.5-pro",
-        "gemini-1.5-pro-latest": "gemini-1.5-pro",
-        "gemini-pro": "gemini-pro",
-        "gemini-2.0-flash-exp": "gemini-2.0-flash-exp",
-    }
-    
-    api_model_name = model_map.get(clean_name, clean_name)
-    
-    try:
-        model = genai.GenerativeModel(api_model_name)
-    except Exception as e:
-        # Si ça échoue, essayer "gemini-pro" (modèle de base toujours disponible)
-        try:
-            model = genai.GenerativeModel("gemini-pro")
-        except:
-            return f"ERROR: Model '{model_name}' not found. Tried '{api_model_name}' and 'gemini-pro'. Error: {str(e)}"
+    # Convertir l'image en bytes
+    buf = BytesIO()
+    image.save(buf, format="PNG")
+    image_bytes = buf.getvalue()
 
     try:
-        # Essayer d'abord avec PIL.Image directement (format le plus simple)
-        # Si ça ne marche pas, on peut convertir en base64
-        try:
+        if use_new_api:
+            # Nouvelle API google.genai
+            client = genai.Client(api_key=_clean(api_key))
+            
+            # Normaliser le nom du modèle (enlever "models/" si présent)
+            clean_model = model_name.replace("models/", "").strip()
+            
+            response = client.models.generate_content(
+                model=clean_model,
+                contents=[
+                    {
+                        "role": "user",
+                        "parts": [
+                            {"inline_data": {"mime_type": "image/png", "data": base64.b64encode(image_bytes).decode("ascii")}},
+                            {"text": prompt},
+                        ],
+                    }
+                ],
+                config={"max_output_tokens": max_output_tokens, "temperature": 0.0},
+            )
+            
+            # Extraire le texte de la réponse
+            if hasattr(response, "text") and response.text:
+                return response.text.strip()
+            elif hasattr(response, "candidates") and response.candidates:
+                for candidate in response.candidates:
+                    if hasattr(candidate, "content") and hasattr(candidate.content, "parts"):
+                        for part in candidate.content.parts:
+                            if hasattr(part, "text") and part.text:
+                                return part.text.strip()
+            return "ERROR: Empty response from new API"
+        else:
+            # Ancienne API (fallback, probablement ne fonctionnera pas)
+            genai.configure(api_key=_clean(api_key))
+            model = genai.GenerativeModel(model_name.replace("models/", ""))
             response = model.generate_content(
                 [image, prompt],
-                generation_config=genai.types.GenerationConfig(
-                    max_output_tokens=max_output_tokens,
-                    temperature=0.0,
-                ),
+                generation_config={"max_output_tokens": max_output_tokens, "temperature": 0.0},
             )
-        except Exception as e1:
-            # Fallback: convertir l'image en base64
-            buf = BytesIO()
-            image.save(buf, format="PNG")
-            image_bytes = buf.getvalue()
-            import base64
-            image_b64 = base64.b64encode(image_bytes).decode("ascii")
-            
-            # Format avec base64
-            response = model.generate_content(
-                {
-                    "parts": [
-                        {"mime_type": "image/png", "data": image_b64},
-                        {"text": prompt},
-                    ],
-                },
-                generation_config=genai.types.GenerationConfig(
-                    max_output_tokens=max_output_tokens,
-                    temperature=0.0,
-                ),
-            )
-        
-        # Extraire le texte
-        if response and hasattr(response, "text"):
-            text = response.text
-            if text:
-                return text.strip()
-        
-        # Fallback: chercher dans candidates
-        if hasattr(response, "candidates") and response.candidates:
-            for candidate in response.candidates:
-                if hasattr(candidate, "content") and hasattr(candidate.content, "parts"):
-                    for part in candidate.content.parts:
-                        if hasattr(part, "text") and part.text:
-                            return part.text.strip()
-        
-        return "ERROR: Empty response"
+            return (response.text or "").strip()
     except Exception as e:
         return f"ERROR: {str(e)}"
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model_name", default="gemini-1.5-flash-latest", help="gemini-1.5-flash-latest, gemini-1.5-pro-latest, gemini-pro, etc.")
+    ap.add_argument("--model_name", default="gemini-1.5-flash", help="gemini-1.5-flash, gemini-1.5-pro, gemini-2.0-flash-exp, etc.")
     ap.add_argument("--dataset_name", default="stogian/srbench")
     ap.add_argument("--dataset_split", default="test")
     ap.add_argument("--splits", nargs="+", default=["mrt_easy", "mrt_hard"])

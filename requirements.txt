@@ -16,6 +16,9 @@ qwen-vl-utils>=0.0.8
 openai>=1.0.0
 
 # Gemini eval via Google Generative AI API
+# Nouvelle API (recommandée)
+google-genai>=0.2.0
+# Ancienne API (fallback, dépréciée mais gardée pour compatibilité)
 google-generativeai>=0.3.0
 
 # Laissez torch/torchvision être géré côté serveur CUDA si besoin (pip/conda).
