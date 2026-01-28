@@ -190,6 +190,18 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                     if debug_response:
                         print(f"[DEBUG] Appel API avec max_output_tokens={max_output_tokens}, model={api_model_name}")
                     
+                    # Utiliser types.GenerateContentConfig() au lieu d'un dict simple
+                    # C'est le format correct pour l'API google.genai
+                    try:
+                        from google.genai import types
+                        config = types.GenerateContentConfig(
+                            max_output_tokens=max_output_tokens,
+                            temperature=0.0,
+                        )
+                    except ImportError:
+                        # Fallback vers dict si types n'est pas disponible
+                        config = {"max_output_tokens": max_output_tokens, "temperature": 0.0}
+                    
                     response = client.models.generate_content(
                         model=api_model_name,
                         contents=[
@@ -201,7 +213,7 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                                 ],
                             }
                         ],
-                        config={"max_output_tokens": max_output_tokens, "temperature": 0.0},
+                        config=config,
                     )
                     break  # Succès, sortir de la boucle
                 except Exception as e:
@@ -320,6 +332,7 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                     
                     # Même avec MAX_TOKENS, le texte partiel devrait être dans content.parts
                     if finish_reason and "MAX_TOKENS" in str(finish_reason):
+                        # Méthode 1: content.parts
                         content = getattr(cand, "content", None)
                         if content:
                             parts = getattr(content, "parts", None) or []
@@ -328,27 +341,93 @@ def call_gemini(image: Image.Image, question: str, model_name: str, max_output_t
                                 if t:
                                     partial_text = str(t).strip()
                                     if partial_text:
-                                        # Retourner le texte partiel même si tronqué - on peut extraire la lettre
                                         return partial_text
+                        
+                        # Méthode 2: Essayer d'accéder directement à tous les attributs de candidate
+                        for attr_name in dir(cand):
+                            if attr_name.startswith("_"):
+                                continue
+                            try:
+                                attr_val = getattr(cand, attr_name)
+                                if isinstance(attr_val, str) and attr_val.strip():
+                                    # Si c'est une string non vide, peut-être que c'est le texte ?
+                                    if len(attr_val.strip()) <= 10:  # Probablement une lettre
+                                        return attr_val.strip()
+                            except:
+                                pass
+                        
+                        # Méthode 3: Essayer response directement
+                        for attr_name in dir(response):
+                            if attr_name.startswith("_") or attr_name in ["parts", "candidates", "text"]:
+                                continue
+                            try:
+                                attr_val = getattr(response, attr_name)
+                                if isinstance(attr_val, str) and attr_val.strip() and len(attr_val.strip()) <= 10:
+                                    return attr_val.strip()
+                            except:
+                                pass
             except Exception:
                 pass
             
-            # Si vraiment rien n'a fonctionné, retourner un message d'erreur détaillé
+            # Si vraiment rien n'a fonctionné, faire un diagnostic approfondi
             debug_parts = ["ERROR: No text found"]
             try:
                 debug_parts.append(f"type={type(response).__name__}")
                 debug_parts.append(f"has_parts={hasattr(response, 'parts')}")
+                
+                # Diagnostic approfondi de response.parts
                 if hasattr(response, "parts") and response.parts:
                     debug_parts.append(f"parts_len={len(response.parts)}")
+                    for i, part in enumerate(response.parts[:3]):  # Limiter à 3
+                        part_type = type(part).__name__
+                        has_text = hasattr(part, "text")
+                        text_val = getattr(part, "text", None)
+                        debug_parts.append(f"parts[{i}]: type={part_type}, has_text={has_text}, text={repr(str(text_val)[:50]) if text_val else None}")
+                
                 debug_parts.append(f"has_candidates={hasattr(response, 'candidates')}")
                 if hasattr(response, "candidates") and response.candidates and len(response.candidates) > 0:
                     cand = response.candidates[0]
                     finish_reason = getattr(cand, "finish_reason", None)
                     debug_parts.append(f"finish_reason={finish_reason}")
+                    
+                    # Diagnostic approfondi de candidates[0].content.parts
                     if finish_reason and "MAX_TOKENS" in str(finish_reason):
-                        debug_parts.append("(MAX_TOKENS - texte partiel non trouvé malgré extraction agressive)")
+                        debug_parts.append("(MAX_TOKENS)")
+                        content = getattr(cand, "content", None)
+                        if content:
+                            content_type = type(content).__name__
+                            debug_parts.append(f"content_type={content_type}")
+                            parts = getattr(content, "parts", None)
+                            if parts:
+                                debug_parts.append(f"content.parts_len={len(parts)}")
+                                for i, p in enumerate(parts[:3]):  # Limiter à 3
+                                    p_type = type(p).__name__
+                                    p_text = getattr(p, "text", None)
+                                    debug_parts.append(f"content.parts[{i}]: type={p_type}, text={repr(str(p_text)[:50]) if p_text else None}")
+                            else:
+                                debug_parts.append("content.parts=None ou vide")
+                        else:
+                            debug_parts.append("candidate.content=None")
+                        
+                        # Dernière tentative : essayer d'accéder directement à tous les attributs
+                        if debug_response:
+                            print(f"[DEBUG MAX_TOKENS] Structure complète:")
+                            print(f"  response type: {type(response)}")
+                            print(f"  response dir: {[x for x in dir(response) if not x.startswith('_')][:10]}")
+                            if hasattr(response, "candidates") and response.candidates:
+                                cand = response.candidates[0]
+                                print(f"  candidate type: {type(cand)}")
+                                print(f"  candidate dir: {[x for x in dir(cand) if not x.startswith('_')][:10]}")
+                                if hasattr(cand, "content"):
+                                    content = cand.content
+                                    print(f"  content type: {type(content)}")
+                                    print(f"  content dir: {[x for x in dir(content) if not x.startswith('_')][:10]}")
             except Exception as e:
                 debug_parts.append(f"debug_error={str(e)}")
+                if debug_response:
+                    import traceback
+                    traceback.print_exc()
+            
             return ". ".join(debug_parts)
         else:
             # Ancienne API (fallback, probablement ne fonctionnera pas)
