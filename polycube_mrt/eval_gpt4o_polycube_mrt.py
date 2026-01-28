@@ -29,6 +29,8 @@ class Example:
     image_path: Path
     color_query_path: Optional[Path] = None
     color_options: Optional[Dict[str, Path]] = None
+    depth_query_path: Optional[Path] = None
+    depth_options: Optional[Dict[str, Path]] = None
 
 
 def _ensure_dir(p: Path) -> None:
@@ -81,7 +83,11 @@ def iter_examples(jsonl_path: Path, splits: List[str], max_samples: int, shuffle
     for i, r in enumerate(rows):
         color_query = None
         color_opts = None
+        depth_query = None
+        depth_opts = None
         meta = r.get("meta") or {}
+        
+        # Parse color paths
         color_meta = meta.get("color") if isinstance(meta, dict) else None
         if isinstance(color_meta, dict):
             qc = color_meta.get("query_color")
@@ -95,6 +101,21 @@ def iter_examples(jsonl_path: Path, splits: List[str], max_samples: int, shuffle
                         tmp[k] = Path(oc[k])
                 if len(tmp) == 3:
                     color_opts = tmp
+        
+        # Parse depth paths
+        depth_meta = meta.get("depth") if isinstance(meta, dict) else None
+        if isinstance(depth_meta, dict):
+            qd = depth_meta.get("query_depth")
+            od = depth_meta.get("options_depth")
+            if isinstance(qd, str):
+                depth_query = Path(qd)
+            if isinstance(od, dict):
+                tmp: Dict[str, Path] = {}
+                for k in ["A", "B", "C"]:
+                    if isinstance(od.get(k), str):
+                        tmp[k] = Path(od[k])
+                if len(tmp) == 3:
+                    depth_opts = tmp
 
         ex = Example(
             idx=i,
@@ -104,6 +125,8 @@ def iter_examples(jsonl_path: Path, splits: List[str], max_samples: int, shuffle
             image_path=Path(r["image"]),
             color_query_path=color_query,
             color_options=color_opts,
+            depth_query_path=depth_query,
+            depth_options=depth_opts,
         )
         yield ex
         count += 1
@@ -145,29 +168,43 @@ def openai_client():
     return OpenAI(**kwargs)
 
 
-def _build_prompt(question: str, use_color_inputs: bool) -> str:
-    if not use_color_inputs:
+def _build_prompt(question: str, use_color_inputs: bool, use_depth_inputs: bool) -> str:
+    if not use_color_inputs and not use_depth_inputs:
         return (
             f"{question}\n\n"
             "Answer with EXACTLY ONE LETTER: A, B, or C. No other text."
         )
+    
+    parts = [f"{question}\n\n", "You will receive multiple images.\n"]
+    
+    if use_color_inputs and use_depth_inputs:
+        parts.append(
+            "Use the COLOR images to compare the arrangement of colored cubes/faces.\n"
+            "Use the DEPTH images to compare the 3D geometry and structure.\n"
+            "Combine both visual cues to pick the option that matches the QUERY under rotation (same shape + consistent color adjacency + matching depth structure).\n"
+        )
+    elif use_color_inputs:
+        parts.append(
+            "Use the COLOR images to compare the arrangement of colored cubes/faces.\n"
+            "Pick the option that matches the QUERY under rotation (same shape + consistent color adjacency).\n"
+        )
+    elif use_depth_inputs:
+        parts.append(
+            "Use the DEPTH images to compare the 3D geometry and structure.\n"
+            "Pick the option that matches the QUERY under rotation (same shape + matching depth structure).\n"
+        )
+    
+    parts.append("\nAnswer with EXACTLY ONE LETTER: A, B, or C. No other text.")
+    return "".join(parts)
 
-    return (
-        f"{question}\n\n"
-        "You will receive multiple images.\n"
-        "Use the COLOR images to compare the arrangement of colored cubes/faces.\n"
-        "Pick the option that matches the QUERY under rotation (same shape + consistent color adjacency).\n\n"
-        "Answer with EXACTLY ONE LETTER: A, B, or C. No other text."
-    )
 
-
-def call_gpt4o(images: List[Image.Image], question: str, model_name: str, max_output_tokens: int, use_color_inputs: bool) -> str:
+def call_gpt4o(images: List[Image.Image], question: str, model_name: str, max_output_tokens: int, use_color_inputs: bool, use_depth_inputs: bool) -> str:
     client = openai_client()
 
     content: List[Dict[str, Any]] = []
     for img in images:
         content.append({"type": "image_url", "image_url": {"url": _pil_to_data_url(img)}})
-    content.append({"type": "text", "text": _build_prompt(question, use_color_inputs=use_color_inputs)})
+    content.append({"type": "text", "text": _build_prompt(question, use_color_inputs=use_color_inputs, use_depth_inputs=use_depth_inputs)})
 
     resp = client.chat.completions.create(
         model=model_name,
@@ -188,6 +225,7 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=None)
     ap.add_argument("--max_output_tokens", type=int, default=8)
     ap.add_argument("--use_color_inputs", action="store_true", help="Envoyer aussi Color-QUERY + Color-A/B/C si présents dans meta.color.")
+    ap.add_argument("--use_depth_inputs", action="store_true", help="Envoyer aussi Depth-QUERY + Depth-A/B/C si présents dans meta.depth.")
     ap.add_argument("--out_dir", default=None)
     args = ap.parse_args()
 
@@ -213,18 +251,28 @@ def main() -> None:
     with (out_dir / "predictions.jsonl").open("w", encoding="utf-8") as f:
         for ex in tqdm(iter_examples(data_jsonl, args.splits, args.max_samples, args.shuffle, args.seed), desc="Evaluating"):
             # Images order:
-            # 1) composite mono
-            # 2..5) color query + color A/B/C (optional)
+            # 1) composite mono (always)
+            # 2..5) color query + color A/B/C (if --use_color_inputs)
+            # 6..9) depth query + depth A/B/C (if --use_depth_inputs)
             images: List[Image.Image] = [Image.open(ex.image_path).convert("RGB")]
             used_color = False
+            used_depth = False
+            
             if args.use_color_inputs and ex.color_query_path is not None and ex.color_options is not None:
                 images.append(Image.open(ex.color_query_path).convert("RGB"))
                 images.append(Image.open(ex.color_options["A"]).convert("RGB"))
                 images.append(Image.open(ex.color_options["B"]).convert("RGB"))
                 images.append(Image.open(ex.color_options["C"]).convert("RGB"))
                 used_color = True
+            
+            if args.use_depth_inputs and ex.depth_query_path is not None and ex.depth_options is not None:
+                images.append(Image.open(ex.depth_query_path).convert("RGB"))
+                images.append(Image.open(ex.depth_options["A"]).convert("RGB"))
+                images.append(Image.open(ex.depth_options["B"]).convert("RGB"))
+                images.append(Image.open(ex.depth_options["C"]).convert("RGB"))
+                used_depth = True
 
-            raw = call_gpt4o(images, ex.question, args.model_name, args.max_output_tokens, use_color_inputs=used_color)
+            raw = call_gpt4o(images, ex.question, args.model_name, args.max_output_tokens, use_color_inputs=used_color, use_depth_inputs=used_depth)
             pred = _parse_choice(raw)
             pred = pred if pred in CHOICES else None
             correct = (pred == ex.answer)
@@ -251,8 +299,10 @@ def main() -> None:
                     "correct": bool(correct),
                     "image_path": str(ex.image_path),
                     "use_color_inputs": used_color,
+                    "use_depth_inputs": used_depth,
                     "n_images": len(images),
                     "color_query_path": str(ex.color_query_path) if ex.color_query_path else None,
+                    "depth_query_path": str(ex.depth_query_path) if ex.depth_query_path else None,
                 }
             )
 
@@ -267,6 +317,7 @@ def main() -> None:
                 "seed": args.seed,
                 "max_output_tokens": args.max_output_tokens,
                 "use_color_inputs": args.use_color_inputs,
+                "use_depth_inputs": args.use_depth_inputs,
                 "total_examples": len(detailed),
                 "results": detailed,
             },
@@ -288,6 +339,7 @@ def main() -> None:
             "seed": args.seed,
             "max_output_tokens": args.max_output_tokens,
             "use_color_inputs": args.use_color_inputs,
+            "use_depth_inputs": args.use_depth_inputs,
         }
     )
     (out_dir / "metrics.json").write_text(json.dumps(metrics, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
