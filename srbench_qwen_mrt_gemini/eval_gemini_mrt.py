@@ -115,7 +115,9 @@ def compute_metrics(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
     }
 
 
-def gemini_client():
+def call_gemini(image: Image.Image, question: str, model_name: str, max_output_tokens: int) -> str:
+    # NOTE: google.generativeai est déprécié mais fonctionne encore.
+    # Migrer vers google.genai quand disponible.
     import google.generativeai as genai
 
     api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
@@ -127,13 +129,6 @@ def gemini_client():
         return s.strip().replace("\u2028", "").replace("\u2029", "").replace("\r", "").replace("\n", "")
 
     genai.configure(api_key=_clean(api_key))
-    return genai
-
-
-def call_gemini(image: Image.Image, question: str, model_name: str, max_output_tokens: int) -> str:
-    import google.generativeai as genai
-
-    client = gemini_client()
     prompt = _build_prompt(question)
 
     # Gemini accepte PIL.Image directement
