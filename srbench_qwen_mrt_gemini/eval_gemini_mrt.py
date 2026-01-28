@@ -429,7 +429,7 @@ def main() -> None:
     ap.add_argument("--max_samples", type=int, default=-1)
     ap.add_argument("--shuffle", action="store_true")
     ap.add_argument("--seed", type=int, default=None)
-    ap.add_argument("--max_output_tokens", type=int, default=8, help="Tokens max pour la réponse. Par défaut: 8 (suffisant pour une lettre). Augmenter seulement si nécessaire.")
+    ap.add_argument("--max_output_tokens", type=int, default=16, help="Tokens max pour la réponse. Par défaut: 16 (suffisant pour une lettre + overhead minimal). Ne pas mettre <10 car Gemini a besoin de tokens pour le formatage.")
     ap.add_argument("--out_dir", default=None)
     ap.add_argument("--debug", action="store_true", help="Afficher les 5 premières réponses brutes pour debug")
     ap.add_argument("--debug_response", action="store_true", help="Afficher la structure complète de la réponse Gemini (très verbeux)")
