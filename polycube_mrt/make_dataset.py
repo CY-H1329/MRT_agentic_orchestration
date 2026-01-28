@@ -13,8 +13,10 @@ from PIL import Image, ImageDraw
 from tqdm import tqdm
 
 
-_RE_ORIG = re.compile(r"^polycube_(\d+)_original_mono\.png$")
-_RE_ANGLE = re.compile(r"^polycube_(\d+)_angle(\d+)_mono\.png$")
+_RE_ORIG_MONO = re.compile(r"^polycube_(\d+)_original_mono\.png$")
+_RE_ANGLE_MONO = re.compile(r"^polycube_(\d+)_angle(\d+)_mono\.png$")
+_RE_ORIG_DEPTH = re.compile(r"^polycube_(\d+)_original_depth\.png$")
+_RE_ANGLE_DEPTH = re.compile(r"^polycube_(\d+)_angle(\d+)_depth\.png$")
 
 
 @dataclass
@@ -22,6 +24,8 @@ class PolycubeGroup:
     poly_id: str
     original_mono: Path
     angle_mono: Dict[int, Path]  # angle -> path
+    original_depth: Optional[Path] = None
+    angle_depth: Optional[Dict[int, Path]] = None  # angle -> path
 
 
 def _load_groups(data_dir: Path) -> Dict[str, PolycubeGroup]:
@@ -31,27 +35,71 @@ def _load_groups(data_dir: Path) -> Dict[str, PolycubeGroup]:
         if not p.is_file():
             continue
 
-        m = _RE_ORIG.match(name)
+        m = _RE_ORIG_MONO.match(name)
         if m:
             pid = m.group(1)
             g = groups.get(pid)
             if g is None:
-                g = PolycubeGroup(poly_id=pid, original_mono=p, angle_mono={})
+                g = PolycubeGroup(poly_id=pid, original_mono=p, angle_mono={}, original_depth=None, angle_depth={})
                 groups[pid] = g
             else:
                 g.original_mono = p
             continue
 
-        m = _RE_ANGLE.match(name)
+        m = _RE_ANGLE_MONO.match(name)
         if m:
             pid = m.group(1)
             ang = int(m.group(2))
             g = groups.get(pid)
             if g is None:
                 # placeholder original; will be validated later
-                g = PolycubeGroup(poly_id=pid, original_mono=data_dir / f"polycube_{pid}_original_mono.png", angle_mono={})
+                g = PolycubeGroup(
+                    poly_id=pid,
+                    original_mono=data_dir / f"polycube_{pid}_original_mono.png",
+                    angle_mono={},
+                    original_depth=None,
+                    angle_depth={},
+                )
                 groups[pid] = g
             g.angle_mono[ang] = p
+            continue
+
+        m = _RE_ORIG_DEPTH.match(name)
+        if m:
+            pid = m.group(1)
+            g = groups.get(pid)
+            if g is None:
+                g = PolycubeGroup(
+                    poly_id=pid,
+                    original_mono=data_dir / f"polycube_{pid}_original_mono.png",
+                    angle_mono={},
+                    original_depth=p,
+                    angle_depth={},
+                )
+                groups[pid] = g
+            else:
+                g.original_depth = p
+                if g.angle_depth is None:
+                    g.angle_depth = {}
+            continue
+
+        m = _RE_ANGLE_DEPTH.match(name)
+        if m:
+            pid = m.group(1)
+            ang = int(m.group(2))
+            g = groups.get(pid)
+            if g is None:
+                g = PolycubeGroup(
+                    poly_id=pid,
+                    original_mono=data_dir / f"polycube_{pid}_original_mono.png",
+                    angle_mono={},
+                    original_depth=None,
+                    angle_depth={},
+                )
+                groups[pid] = g
+            if g.angle_depth is None:
+                g.angle_depth = {}
+            g.angle_depth[ang] = p
             continue
 
     # filter valid groups
@@ -112,13 +160,21 @@ def _make_composite(
     bg.save(out_path, format="PNG")
 
 
-def _question_text() -> str:
+def _question_text(include_depth: bool) -> str:
     return (
         "This image shows a 3D polycube shape.\n"
         "The QUERY view is at the top-center (marked 'Q').\n"
         "Which option (A, B, or C) at the bottom row is simply the QUERY shape in a rotated orientation?\n"
         "Only one option is correct.\n"
-        "Available options: A. Left, B. Center, C. Right"
+        "Available options: A. Left, B. Center, C. Right\n"
+        + (
+            "\nAdditional inputs are provided as separate DEPTH images:\n"
+            "- Depth-QUERY (original)\n"
+            "- Depth-A, Depth-B, Depth-C (options)\n"
+            "Use them to decide the correct rotation match."
+            if include_depth
+            else ""
+        )
     )
 
 
@@ -131,6 +187,7 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=123, help="Seed RNG pour reproductibilité.")
     ap.add_argument("--tile_size", type=int, default=256, help="Taille (px) d'un tile dans l'image composite.")
     ap.add_argument("--angles", nargs="*", type=int, default=None, help="Sous-ensemble d'angles autorisés (ex: 1 2). Par défaut: tous angles trouvés.")
+    ap.add_argument("--include_depth", action="store_true", help="Inclure les chemins depth (query+options) dans dataset.jsonl (pour multi-image input).")
     args = ap.parse_args()
 
     data_dir = Path(args.data_dir).expanduser().resolve()
@@ -160,6 +217,11 @@ def main() -> None:
         ang = rng.choice(angs)
         return ang, g.angle_mono[ang]
 
+    def pick_angle_depth(g: PolycubeGroup, ang: int) -> Optional[Path]:
+        if g.angle_depth is None:
+            return None
+        return g.angle_depth.get(ang)
+
     with jsonl_path.open("w", encoding="utf-8") as f:
         pbar = tqdm(total=total_target, desc="Generating MRT examples")
         while True:
@@ -177,10 +239,19 @@ def main() -> None:
 
             # correct option: rotated view of SAME polycube
             ang, correct_path = pick_angle(g)
+            correct_depth_path = pick_angle_depth(g, ang) if args.include_depth else None
 
             # distractors: 2 different polycubes (original_mono)
             distract_ids = rng.sample([x for x in all_ids if x != pid], k=2)
             distract_paths = [groups[x].original_mono for x in distract_ids]
+            distract_depth_paths = [groups[x].original_depth for x in distract_ids] if args.include_depth else [None, None]
+
+            # if depth required, ensure we have query depth + correct depth + distractor depths
+            if args.include_depth:
+                if g.original_depth is None or correct_depth_path is None:
+                    continue
+                if any(d is None for d in distract_depth_paths):
+                    continue
 
             # options order
             option_paths = [correct_path] + distract_paths
@@ -188,6 +259,17 @@ def main() -> None:
             labels = ["A", "B", "C"]
             correct_idx = option_paths.index(correct_path)
             answer = labels[correct_idx]
+
+            option_depth_paths: Optional[List[Path]] = None
+            if args.include_depth:
+                # keep depth aligned with option_paths
+                all_opt_pairs: List[Tuple[Path, Path]] = []
+                all_opt_pairs.append((correct_path, correct_depth_path))  # type: ignore[arg-type]
+                all_opt_pairs.append((distract_paths[0], distract_depth_paths[0]))  # type: ignore[arg-type]
+                all_opt_pairs.append((distract_paths[1], distract_depth_paths[1]))  # type: ignore[arg-type]
+                # reorder pairs to match option_paths
+                depth_by_img = {str(img_p): depth_p for (img_p, depth_p) in all_opt_pairs}
+                option_depth_paths = [Path(depth_by_img[str(p)]) for p in option_paths]  # type: ignore[index]
 
             # composite image
             ex_id = f"{split}_pid{pid}_ang{ang}_seed{args.seed}_{counts[split]:04d}"
@@ -200,10 +282,21 @@ def main() -> None:
                 labels=labels,
             )
 
+            depth_payload: Optional[Dict[str, Any]] = None
+            if args.include_depth and option_depth_paths is not None:
+                depth_payload = {
+                    "query_depth": str(g.original_depth),
+                    "options_depth": {
+                        "A": str(option_depth_paths[0]),
+                        "B": str(option_depth_paths[1]),
+                        "C": str(option_depth_paths[2]),
+                    },
+                }
+
             row = {
                 "id": ex_id,
                 "split": split,
-                "question": _question_text(),
+                "question": _question_text(include_depth=args.include_depth),
                 "answer": answer,
                 "image": str(composite_path),
                 "meta": {
@@ -217,6 +310,7 @@ def main() -> None:
                         "C": str(option_paths[2]),
                     },
                     "distractor_ids": distract_ids,
+                    **({"depth": depth_payload} if depth_payload is not None else {}),
                 },
             }
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
@@ -234,7 +328,8 @@ def main() -> None:
         "splits": args.splits,
         "counts": counts,
         "total": sum(counts.values()),
-        "note": "Each example is a composite image: top-center query (Q), bottom row options A/B/C.",
+        "include_depth": bool(args.include_depth),
+        "note": "Each example is a composite image: top-center query (Q), bottom row options A/B/C. If include_depth, meta.depth contains query/options depth paths.",
     }
     meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(meta, ensure_ascii=False, indent=2))

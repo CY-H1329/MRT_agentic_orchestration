@@ -13,7 +13,7 @@ from PIL import Image
 from tqdm import tqdm
 
 # Reuse Qwen loading + inference from existing srbench evaluator
-from srbench_qwen_mrt.eval_mrt import _ensure_dir, _now_id, _parse_choice, load_qwen_vl, predict_one  # type: ignore
+from srbench_qwen_mrt.eval_mrt import _ensure_dir, _now_id, _parse_choice, load_qwen_vl  # type: ignore
 
 
 CHOICES = ["A", "B", "C"]
@@ -26,6 +26,8 @@ class Example:
     question: str
     answer: str
     image_path: Path
+    depth_query_path: Optional[Path] = None
+    depth_options: Optional[Dict[str, Path]] = None
 
 
 def _iter_jsonl(path: Path) -> Iterable[Dict[str, Any]]:
@@ -45,12 +47,31 @@ def iter_examples(jsonl_path: Path, splits: List[str], max_samples: int, shuffle
 
     count = 0
     for i, r in enumerate(rows):
+        depth_query = None
+        depth_opts = None
+        meta = r.get("meta") or {}
+        depth_meta = meta.get("depth") if isinstance(meta, dict) else None
+        if isinstance(depth_meta, dict):
+            qd = depth_meta.get("query_depth")
+            od = depth_meta.get("options_depth")
+            if isinstance(qd, str):
+                depth_query = Path(qd)
+            if isinstance(od, dict):
+                tmp: Dict[str, Path] = {}
+                for k in ["A", "B", "C"]:
+                    if isinstance(od.get(k), str):
+                        tmp[k] = Path(od[k])
+                if len(tmp) == 3:
+                    depth_opts = tmp
+
         ex = Example(
             idx=i,
             split=str(r["split"]),
             question=str(r["question"]),
             answer=str(r["answer"]).strip().upper(),
             image_path=Path(r["image"]),
+            depth_query_path=depth_query,
+            depth_options=depth_opts,
         )
         yield ex
         count += 1
@@ -81,6 +102,7 @@ def main() -> None:
     ap.add_argument("--out_dir", default=None)
     ap.add_argument("--shuffle", action="store_true")
     ap.add_argument("--seed", type=int, default=None)
+    ap.add_argument("--use_depth_inputs", action="store_true", help="Si dataset contient meta.depth, ajouter query/options depth comme images supplémentaires au modèle.")
     args = ap.parse_args()
 
     data_jsonl = Path(args.data_jsonl).expanduser()
@@ -105,14 +127,30 @@ def main() -> None:
 
     with pred_path.open("w", encoding="utf-8") as f:
         for ex in tqdm(iter_examples(data_jsonl, args.splits, args.max_samples, args.shuffle, args.seed), desc="Evaluating"):
-            img = Image.open(ex.image_path).convert("RGB")
-            raw = predict_one(
+            # Load main composite (mono)
+            img_main = Image.open(ex.image_path).convert("RGB")
+
+            # Multi-image input (optional): composite + depth_query + depth_A/B/C
+            images: List[Image.Image] = [img_main]
+            if args.use_depth_inputs:
+                if ex.depth_query_path is None or ex.depth_options is None:
+                    # dataset not generated with --include_depth
+                    pass
+                else:
+                    # order is important and described in prompt
+                    images.append(Image.open(ex.depth_query_path).convert("RGB"))
+                    images.append(Image.open(ex.depth_options["A"]).convert("RGB"))
+                    images.append(Image.open(ex.depth_options["B"]).convert("RGB"))
+                    images.append(Image.open(ex.depth_options["C"]).convert("RGB"))
+
+            raw = predict_one_multi(
                 model=model,
                 processor=processor,
                 tokenizer=tokenizer,
-                image=img,
+                images=images,
                 question=ex.question,
                 max_new_tokens=args.max_new_tokens,
+                use_depth=args.use_depth_inputs and len(images) == 5,
             )
             pred = _parse_choice(raw)
             pred = pred if pred in CHOICES else None
@@ -140,7 +178,10 @@ def main() -> None:
                     "model_raw_output": raw,
                     "correct": bool(correct),
                     "image_path": str(ex.image_path),
-                    "image_size": list(img.size),
+                    "image_size": list(img_main.size),
+                    "use_depth_inputs": bool(args.use_depth_inputs),
+                    "n_images": len(images),
+                    "depth_query_path": str(ex.depth_query_path) if ex.depth_query_path else None,
                 }
             )
 
@@ -173,4 +214,82 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+def _build_prompt_polycube(question: str, use_depth: bool) -> str:
+    if not use_depth:
+        return (
+            f"{question}\n\n"
+            "Réponds avec UNE SEULE LETTRE parmi {A,B,C}.\n"
+            "N'ajoute aucun autre texte."
+        )
+    return (
+        f"{question}\n\n"
+        "You are given 5 images in order:\n"
+        "1) Composite mono (Q at top-center, options A/B/C on bottom row)\n"
+        "2) Depth-QUERY (original)\n"
+        "3) Depth-A\n"
+        "4) Depth-B\n"
+        "5) Depth-C\n\n"
+        "Answer with EXACTLY ONE LETTER: A, B, or C. No other text."
+    )
+
+
+def predict_one_multi(
+    model,
+    processor,
+    tokenizer,
+    images: List[Image.Image],
+    question: str,
+    max_new_tokens: int,
+    use_depth: bool,
+) -> str:
+    """
+    Qwen2.5-VL multi-image generation wrapper (composite + optional depth images).
+    Mirrors srbench_qwen_mrt.eval_mrt.predict_one logic but supports multiple images.
+    """
+    import torch
+
+    prompt = _build_prompt_polycube(question, use_depth=use_depth)
+
+    if hasattr(processor, "apply_chat_template"):
+        from qwen_vl_utils import process_vision_info  # type: ignore
+
+        content = [{"type": "image", "image": im} for im in images]
+        content.append({"type": "text", "text": prompt})
+        messages = [{"role": "user", "content": content}]
+
+        text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        image_inputs, video_inputs = process_vision_info(messages)
+        inputs = processor(
+            text=[text],
+            images=image_inputs,
+            videos=video_inputs,
+            padding=True,
+            return_tensors="pt",
+        )
+    else:
+        # Best-effort fallback: some processors accept list of images
+        inputs = processor(text=prompt, images=images, return_tensors="pt")
+
+    model_device = next(model.parameters()).device
+    inputs = {k: v.to(model_device) if hasattr(v, "to") else v for k, v in inputs.items()}
+
+    out_ids = model.generate(**inputs, max_new_tokens=max_new_tokens, do_sample=False)
+
+    # trim prompt tokens if possible
+    try:
+        in_len = int(inputs["input_ids"].shape[-1]) if "input_ids" in inputs else 0
+        gen_ids = out_ids[0][in_len:] if in_len > 0 else out_ids[0]
+    except Exception:
+        gen_ids = out_ids[0]
+
+    if tokenizer is not None:
+        return tokenizer.decode(gen_ids, skip_special_tokens=True).strip()
+
+    # fallback
+    try:
+        return processor.decode(gen_ids, skip_special_tokens=True).strip()
+    except Exception:
+        return str(out_ids)
 
