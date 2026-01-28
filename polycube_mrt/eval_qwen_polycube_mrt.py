@@ -249,7 +249,22 @@ def _build_prompt_polycube(question: str, use_depth: bool, use_color: bool) -> s
             "Réponds avec UNE SEULE LETTRE parmi {A,B,C}.\n"
             "N'ajoute aucun autre texte."
         )
-    lines = [f"{question}", "", "You are given images in order:"]
+    lines = [
+        f"{question}",
+        "",
+        "INSTRUCTIONS (important):",
+        "- Focus on matching the 3D SHAPE under rotation (same polycube).",
+        "- Use COLOR arrangement as a strong cue: compare which colored faces/cubes are adjacent and their relative positions.",
+        "- Ignore background, lighting, and minor rendering differences.",
+        "- Do NOT guess from text; decide by visual comparison.",
+        "",
+        "How to compare (recommended):",
+        "1) Identify distinctive color patterns on the QUERY (e.g., which colors touch, stacked order, left-right relations).",
+        "2) Mentally rotate the QUERY and check which option preserves BOTH geometry + color adjacency relations.",
+        "3) Exactly one option matches.",
+        "",
+        "You are given images in order:",
+    ]
     idx = 1
     lines.append(f"{idx}) Composite mono (Q at top-center, options A/B/C on bottom row)")
     idx += 1
