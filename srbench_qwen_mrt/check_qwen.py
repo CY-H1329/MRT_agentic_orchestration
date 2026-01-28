@@ -30,14 +30,23 @@ def main() -> None:
         sys.exit(1)
 
     # 2. Vérifier qwen-vl-utils
+    process_vision_info = None
     try:
-        import qwen_vl_utils
+        from qwen_vl_utils import process_vision_info  # type: ignore
 
-        print(f"✅ qwen-vl-utils: {qwen_vl_utils.__version__ if hasattr(qwen_vl_utils, '__version__') else 'installé'}")
-    except ImportError:
-        print("❌ qwen-vl-utils non installé")
-        print("   Installez avec: pip install qwen-vl-utils")
-        sys.exit(1)
+        print("✅ qwen-vl-utils: installé")
+    except ImportError as e:
+        # Essayer aussi l'import alternatif
+        try:
+            import qwen_vl_utils  # type: ignore
+            process_vision_info = qwen_vl_utils.process_vision_info
+            print("✅ qwen-vl-utils: installé (import alternatif)")
+        except (ImportError, AttributeError):
+            print("❌ qwen-vl-utils non installé ou import échoué")
+            print(f"   Erreur: {e}")
+            print("   Vérifiez avec: python -c 'from qwen_vl_utils import process_vision_info'")
+            print("   Installez avec: pip install qwen-vl-utils")
+            sys.exit(1)
 
     # 3. Vérifier torch
     print(f"\n✅ torch: {torch.__version__}")
@@ -94,8 +103,6 @@ def main() -> None:
     # 6. Test simple avec une image factice
     print("\n🧪 Test de génération (image factice)...")
     try:
-        from qwen_vl_utils import process_vision_info
-
         # Image factice
         dummy_img = Image.new("RGB", (100, 100), color="red")
 
